@@ -21,7 +21,7 @@ length, temperature, the number of optimizer steps per batch, evaluation and log
 | `learning_rate` | yes, per step (so the cookbook's schedules work) |
 | `beta1`, `beta2`, `eps` | yes |
 | `weight_decay` | yes |
-| `grad_clip_norm` | no: clipping is the run's `--max-grad-norm` |
+| `grad_clip_norm` | no: clipping is the run's `--max-grad-norm`, or `--no-grad-clip` |
 
 Cookbook recipes take `learning_rate=...`. In your own loop:
 
@@ -52,6 +52,7 @@ nextron-cookbook run math loss_fn=ppo 'loss_fn_config={"clip_low_threshold": 0.9
 | `--max-hours` | required | the run stops itself after this long; credits for it are held when it starts |
 | `--max-context` | 16384 | longest prompt + reply, and longest training sequence, in tokens |
 | `--max-grad-norm` | 1.0 | gradient clipping for every step |
+| `--no-grad-clip` | clipping on | no gradient clipping. A step is 1.5-2.7 s shorter (the optimizer then runs beside the backward pass): 2,280-2,350 -> 2,600-2,650 trained tokens/s/GPU on `muse-glimmer-30b`. Clipping guards against a rare very large gradient; keep it on unless your runs are stable |
 | `--idle-timeout` | 1800 | seconds without a sample or a training step before the run stops |
 
 A shorter context leaves more GPU memory for sampling in parallel; use the smallest one your task needs.
