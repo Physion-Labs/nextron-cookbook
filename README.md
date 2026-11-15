@@ -1,6 +1,9 @@
 # nextron-cookbook
 
-Reinforcement learning loops on [NexTron Cloud](https://nextron.physionlabs.ai)'s Serverless RL. An *RL run* is a model
+Recipes for [NexTron Cloud](https://nextron.physionlabs.ai): managed fine-tuning, managed GRPO and Serverless RL, each
+with the settings we measured and the results. Start with [recipes/](recipes/README.md).
+
+Reinforcement learning loops on NexTron Cloud's Serverless RL. An *RL run* is a model
 loaded on a node of GPUs: your loop decides what to sample and what to train on, NexTron runs both with its own trainer.
 There are two ways to drive one, and this repository has tested examples of both:
 
@@ -28,11 +31,11 @@ source .venv/bin/activate
 export NEXTRON_API_KEY="nk_live_..."
 nextron-cloud rl start --model qwen3.8-27b --max-hours 1 --yes     # prints the run's id; billed from ready
 nextron-cloud rl wait rl_...                                       # until the model is loaded, 6-8 minutes
-python examples/math_loop.py rl_... --steps 10 --eval-every 10     # MATH: sample, score here, train; stops the run
+python recipes/math_rl/train.py rl_... --steps 10 --eval-every 10     # MATH: sample, score here, train; stops the run
 nextron-cloud rl stop rl_... --wait                                # always, in case the loop stopped early
 ```
 
-The loop itself, from [examples/math_loop.py](examples/math_loop.py):
+The loop itself, from [recipes/math_rl/train.py](recipes/math_rl/train.py):
 
 ```python
 with NexTron().rl.connect(run_id) as live:
@@ -86,7 +89,7 @@ nextron-cookbook show math      # the full command, to copy into your own script
 ```
 
 Your own Tinker code needs no `nextron-cookbook` at all: set the two environment variables and run it.
-[examples/minimal_loop.py](examples/minimal_loop.py) is the smallest loop: sample, score, train one step, sample again
+[recipes/tinker_loop.py](recipes/tinker_loop.py) is the smallest loop: sample, score, train one step, sample again
 (it borrows tinker-cookbook's renderer for the chat template).
 
 ## Results

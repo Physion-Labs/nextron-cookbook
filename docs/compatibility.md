@@ -33,7 +33,7 @@ optim = training_client.optim_step(tinker.AdamParams(learning_rate=2e-6))
 result, _ = fwd_bwd.result(), optim.result()
 ```
 
-[examples/minimal_loop.py](../examples/minimal_loop.py) is a complete loop of this kind in 60 lines.
+[recipes/tinker_loop.py](../recipes/tinker_loop.py) is a complete loop of this kind in 60 lines.
 
 One `optim_step` takes one `loss_fn`: every `forward_backward` since the last step must use the same loss and thresholds.
 

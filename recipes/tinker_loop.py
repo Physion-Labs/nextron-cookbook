@@ -2,7 +2,7 @@
 for the chat template and stop sequences only, tinker-cookbook's renderer (pip install tinker tinker-cookbook).
 
     eval "$(nextron-cloud rl env rl_...)"      # TINKER_BASE_URL, TINKER_API_KEY
-    python examples/minimal_loop.py
+    python recipes/tinker_loop.py
 
 The reward here is a toy (a reply that is a prime number scores 1). Everything in this file runs on your machine;
 the RL run samples and trains.

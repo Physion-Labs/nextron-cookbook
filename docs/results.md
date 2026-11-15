@@ -71,7 +71,7 @@ The cookbook's two tutorial loops as shipped, a few steps each, with `learning_r
 
 ## The MATH loop with NexTron's own calls
 
-`python examples/math_loop.py rl_... --steps 10 --eval-every 10`: the `math` recipe's problems, prompt and reward, with
+`python recipes/math_rl/train.py rl_... --steps 10 --eval-every 10`: the `math` recipe's problems, prompt and reward, with
 `rl.connect` (`sample`, score here, `train`) instead of the tinker SDK. 64 problems x 8 replies, 512 tokens,
 learning rate 2e-6.
 
@@ -115,7 +115,7 @@ aims at 90%.
 
 ### Other models
 
-The same loop (`examples/math_loop.py --rows 1 --steps 8 --eval-every 4`, learning rate 2e-6, 8 replies a problem,
+The same loop (`recipes/math_rl/train.py --rows 1 --steps 8 --eval-every 4`, learning rate 2e-6, 8 replies a problem,
 512 new tokens) on the two other models that have RL runs:
 
 | Model | Row (tokens a GPU) | Problems a step | MATH-500 at step 0 / 4 / 8 | Trained tokens/s/GPU |

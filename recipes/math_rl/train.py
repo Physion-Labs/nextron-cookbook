@@ -4,8 +4,8 @@ Same problems (Hendrycks MATH), prompt and reward as `nextron-cookbook run math`
 environment, so the two can be compared. Needs `nextron-cloud` and `nextron-cookbook[math]`.
 
     export NEXTRON_API_KEY=nk_live_...
-    python examples/math_loop.py rl_... --steps 10 --eval-every 10       # a ready RL run
-    python examples/math_loop.py rl_... --steps 6 --rows 2 --eval-every 6  # steps sized to fill 2 trainer rows a GPU
+    python recipes/math_rl/train.py rl_... --steps 10 --eval-every 10       # a ready RL run
+    python recipes/math_rl/train.py rl_... --steps 6 --rows 2 --eval-every 6  # steps sized to fill 2 trainer rows a GPU
     nextron-cloud rl stop rl_... --wait                                  # if the loop did not reach its end
 
 Everything in this file runs on your machine. The RL run samples, keeps the sampled tokens, and trains.
