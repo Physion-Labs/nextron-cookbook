@@ -11,24 +11,23 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 
 ## Recipes
 
-| Recipe | How it trains | Task | Result | Cost |
-|---|---|---|---|---|
-| [`sft_basic.py`](recipes/sft_basic.py) | Managed SFT | 20 steps on a sample dataset already on the service | Gemma-4-26B val loss 0.645 -> 0.535 | $3.52 |
-| [`rl_basic.py`](recipes/rl_basic.py) | Serverless RL | arithmetic with a 0/1 reward, 5 steps | the smallest RL loop | about 4 min |
-| [`tinker_loop.py`](recipes/tinker_loop.py) | Serverless RL, `tinker` SDK | sample, score, train one step | the smallest Tinker loop | |
-| [`chat_sft`](recipes/chat_sft/) | Managed SFT | [NoRobots](https://huggingface.co/datasets/HuggingFaceH4/no_robots): 9,500 human-written conversations | learning-rate sweep on Qwen3.8-27B (best after 1 epoch), then Gemma-4-26B and Muse-Glimmer-30B | $1.43-$8.47 |
-| [`math_grpo`](recipes/math_grpo/) | Managed GRPO | MATH problems with a numeric answer, built-in reward | Qwen3.8-27B reward 0.746 -> 0.865 in 10 rounds | $8.48 |
-| [`math_rl`](recipes/math_rl/) | Serverless RL | MATH with your own grader | Qwen3.8-27B MATH-500 35.0% -> 78.0% in 10 steps; also Muse-Glimmer-30B, Gemma-4-26B, Qwen3.8-Flash-Next 180B | |
-| [`guess_number`](recipes/guess_number/) | Serverless RL | a multi-turn game: find a hidden number from "too low" / "too high" | Qwen3.8-27B reward 0.68 -> 0.99 by step 3 | $6.42 |
-| tinker-cookbook `math`, `code`, `gsm8k`, `sl` | Serverless RL, `tinker` SDK | [tinker-cookbook](https://github.com/thinking-machines-lab/tinker-cookbook)'s recipes, unchanged | MATH-500 34.8% -> 76.4% in 10 steps (below) | |
+| Recipe | How it trains | Task |
+|---|---|---|
+| [`sft_basic.py`](recipes/sft_basic.py) | Managed SFT | 20 steps on a sample dataset already on the service |
+| [`rl_basic.py`](recipes/rl_basic.py) | Serverless RL | arithmetic with a 0/1 reward, 5 steps |
+| [`tinker_loop.py`](recipes/tinker_loop.py) | Serverless RL, `tinker` SDK | sample, score, train one step |
+| [`chat_sft`](recipes/chat_sft/) | Managed SFT | [NoRobots](https://huggingface.co/datasets/HuggingFaceH4/no_robots): 9,500 human-written conversations |
+| [`math_rl`](recipes/math_rl/) | Serverless RL | MATH with your own grader |
+| [`guess_number`](recipes/guess_number/) | Serverless RL | a multi-turn game: find a hidden number from "too low" / "too high" |
+| tinker-cookbook `math`, `code`, `gsm8k`, `sl` | Serverless RL, `tinker` SDK | [tinker-cookbook](https://github.com/thinking-machines-lab/tinker-cookbook)'s recipes, unchanged |
 
-Settings, per-step numbers and what each setting is tuned for: [recipes/](recipes/README.md).
+Each recipe's settings and measured results are in its own README; an overview is in [recipes/](recipes/README.md).
 
 ## Two ways to train
 
 | | You send | NexTron runs | Billed |
 |---|---|---|---|
-| **Managed SFT / GRPO** | a dataset and settings | the whole job; you get a checkpoint | per million tokens trained |
+| **Managed SFT** | a dataset and settings | the whole job; you get a checkpoint | per million tokens trained |
 | **Serverless RL** | prompts and rewards from your own loop | every sample and every optimizer step, on GPUs kept for you | by the second the RL run is ready |
 
 After either, an **inference run** serves the trained model with an OpenAI-compatible API, so you can try it before

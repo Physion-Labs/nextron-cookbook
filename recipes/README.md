@@ -5,8 +5,8 @@ scripts use the `nextron-cloud` SDK only, so they are short enough to copy into 
 
 NexTron Cloud has two ways to train:
 
-- **Managed training**: you send a dataset and settings; NexTron runs the whole job (supervised fine-tuning, or GRPO
-  with a built-in reward) and keeps the checkpoint. Billed per token.
+- **Managed SFT**: you send a dataset and settings; NexTron runs the whole supervised fine-tuning job and keeps the
+  checkpoint. Billed per token.
 - **Serverless RL**: an RL run is a model loaded on NexTron's GPUs; your own loop samples, scores in your own code and
   trains, one step at a time. Billed by the time the run is ready.
 
@@ -25,7 +25,6 @@ job_...`), so you can try it before downloading it.
 | Recipe | Mode | Task | Result |
 |---|---|---|---|
 | [`chat_sft`](chat_sft/) | managed SFT | NoRobots: 9,500 human-written conversations | Qwen3.8-27B, Gemma-4-26B, Muse-Glimmer-30B: $1.43-$8.47 a run |
-| [`math_grpo`](math_grpo/) | managed GRPO | MATH problems with a numeric answer, built-in `boxed` reward | Qwen3.8-27B reward 0.75 -> 0.87 in 10 rounds, $8.48 |
 | [`math_rl`](math_rl/) | Serverless RL | MATH with your own grader | MATH-500 35.0% -> 78.0% in 10 steps (Qwen3.8-27B) |
 | [`guess_number`](guess_number/) | Serverless RL | a multi-turn game: guess a hidden number from "too low" / "too high" | Qwen3.8-27B: 75.8% of held-out games solved before, training reward 0.99 from step 2 |
 
