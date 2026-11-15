@@ -107,7 +107,7 @@ a second at any batch size):
 | 4,096 | 150 s |
 
 So a large step costs less per trained token: at three rows a GPU a step of ~1,950 replies takes 143-161 s and trains
-1.1-1.2M tokens, about $0.85-0.88 per 1M trained tokens at $24 an hour, against about $0.97 for the 64-problem step.
+1.1-1.2M tokens, about $0.99-1.03 per 1M trained tokens at $28 an hour, against about $1.13 for the 64-problem step.
 It does not learn more per sampled problem: a larger step is fewer updates for the same samples. Use `--rows` when the
 reward is noisy and you want large batches, or to spend less per token; the default suits a first run. A step that is
 a few tokens over a multiple of the capacity opens one more row on every GPU, each half empty, which is why the example

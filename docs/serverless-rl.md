@@ -22,7 +22,7 @@ trap 'nextron-cloud rl stop "$RUN"' EXIT
 
 States: `queued` -> `starting` (the model loads; not billed) -> `ready` -> `closing` (not billed) -> `closed`, or `failed`.
 
-Price: per GPU-hour, by the kind of GPU: $3.00 per H100-hour. An RL run has 8 GPUs, and you pay for all of them for the seconds the
+Price: per GPU-hour, by the kind of GPU: $3.50 per H100-hour. An RL run has 8 GPUs, and you pay for all of them for the seconds the
 RL run is `ready` (`billable_seconds`). `rl start` without `--yes` shows the price and what is held for
 `--max-hours`; a failed RL run costs nothing.
 
