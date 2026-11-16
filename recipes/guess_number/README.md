@@ -9,7 +9,7 @@ pip install nextron-cloud
 export NEXTRON_API_KEY=nk_live_...
 nextron-cloud rl start --model qwen3.8-27b --max-hours 1 --yes
 nextron-cloud rl wait rl_...
-python recipes/guess_number/train.py rl_... --eval-every 5     # 5 steps; 128 held-out games before and after
+python recipes/guess_number/train.py rl_... --eval-every 5     # 5 steps; the same 128 games before and after
 nextron-cloud rl stop rl_... --wait
 ```
 
@@ -27,7 +27,7 @@ Qwen3.8-27B, one node of 8 H100, learning rate 2e-6:
 
 | | |
 |---|---|
-| held-out games solved before training | 75.8% (8.9 guesses when solved; 18.8% end on a malformed reply) |
+| evaluation games solved before training | 75.8% (8.9 guesses when solved; 18.8% end on a malformed reply) |
 | mean reward of the training games, step 1 / 2 / 3 / 4 | 0.680 / 0.976 / 0.994 / 0.994 |
 | a step at full rows (~1,550 games, ~430K tokens) | 55 s sampling (10 turns), 22 s training at 2,500 tokens/s/GPU, 57 s in the loop's own turns |
 

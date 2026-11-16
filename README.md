@@ -1,10 +1,15 @@
 # nextron-cookbook
 
+[![tests](https://github.com/Physion-Labs/nextron-cookbook/actions/workflows/ci.yml/badge.svg)](https://github.com/Physion-Labs/nextron-cookbook/actions/workflows/ci.yml)
+[![nextron-cloud on PyPI](https://img.shields.io/pypi/v/nextron-cloud?include_prereleases&label=nextron-cloud)](https://pypi.org/project/nextron-cloud/)
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
 Tested recipes for [NexTron Cloud](https://nextron.physionlabs.ai). Each one is a real task with the settings we
 measured, the command that runs it and the results it got on the live service.
 
 ```bash
-uv venv && uv pip install --prerelease=allow "nextron-cookbook[math] @ git+https://github.com/Physion-Labs/nextron-cookbook" nextron-cloud
+git clone https://github.com/Physion-Labs/nextron-cookbook && cd nextron-cookbook
+uv venv && uv pip install --prerelease=allow -e ".[math]" nextron-cloud
 source .venv/bin/activate
 export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API keys
 ```
@@ -20,7 +25,8 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 | [`math_rft`](recipes/math_rft/) | RFT | MATH with the built-in `boxed` reward: NexTron runs the whole loop |
 | [`math_rl`](recipes/math_rl/) | Serverless RL | MATH with your own grader |
 | [`guess_number`](recipes/guess_number/) | Serverless RL | a multi-turn game: find a hidden number from "too low" / "too high" |
-| tinker-cookbook `math`, `code`, `gsm8k`, `sl` | Serverless RL, `tinker` SDK | [tinker-cookbook](https://github.com/thinking-machines-lab/tinker-cookbook)'s recipes, unchanged |
+| [`code`](docs/recipes.md#code-multi-turn-with-a-tool) | Serverless RL, `tinker` SDK | competitive programming: two turns with a tool, the generated code runs in a sandbox (tinker-cookbook's `code_rl`, unchanged) |
+| tinker-cookbook `math`, `gsm8k`, `sl` | Serverless RL, `tinker` SDK | [tinker-cookbook](https://github.com/thinking-machines-lab/tinker-cookbook)'s recipes, unchanged |
 
 Each recipe's settings and measured results are in its own README; an overview is in [recipes/](recipes/README.md).
 
@@ -58,7 +64,7 @@ The loop, from [recipes/math_rl/train.py](recipes/math_rl/train.py):
 with NexTron().rl.connect(run_id) as live:
     for step in range(steps):
         batch = live.sample([prompt(p) for p, _ in problems], n=8, max_tokens=512)     # one request, every prompt
-        rewards = [[score(reply, answer) for reply in group] for (_, answer), group in zip(problems, batch)]
+        rewards = [[score(reply, answer)[0] for reply in group] for (_, answer), group in zip(problems, batch)]
         result = live.train(batch, rewards, learning_rate=2e-6)                         # one optimizer step
     live.finish()
 ```

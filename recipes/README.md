@@ -29,7 +29,8 @@ job_...`), so you can try it before downloading it.
 | [`chat_sft`](chat_sft/) | managed SFT | NoRobots: 9,500 human-written conversations | Qwen3.8-27B, Gemma-4-26B, Muse-Glimmer-30B: $1.43-$8.47 a run |
 | [`math_rft`](math_rft/) | RFT | MATH with the built-in `boxed` reward | Qwen3.8-27B: reward 0.75 -> 0.87 in 10 rounds, replies half as long |
 | [`math_rl`](math_rl/) | Serverless RL | MATH with your own grader | MATH-500 35.0% -> 78.0% in 10 steps (Qwen3.8-27B) |
-| [`guess_number`](guess_number/) | Serverless RL | a multi-turn game: guess a hidden number from "too low" / "too high" | Qwen3.8-27B: 75.8% of held-out games solved before, training reward 0.99 from step 2 |
+| [`guess_number`](guess_number/) | Serverless RL | a multi-turn game: guess a hidden number from "too low" / "too high" | Qwen3.8-27B: 75.8% of evaluation games solved before, training reward 0.99 from step 2 |
+| [`code`](../docs/recipes.md#code-multi-turn-with-a-tool) | Serverless RL, `tinker` SDK | competitive programming: two turns with a tool, the generated code runs in a sandbox | 687 Codeforces and LiveCodeBench problems, all tests pass: 20.7% -> 37.8% in 10 steps (Qwen3.8-27B) |
 
 The tinker-cookbook recipes (`math`, `code`, `gsm8k`, `sl`) run unchanged on an RL run: `nextron-cookbook run <name>`,
 see [docs/recipes.md](../docs/recipes.md).

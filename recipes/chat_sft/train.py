@@ -9,12 +9,16 @@ NexTron packs a step by tokens, not by samples: without `batch_size` each GPU ta
 an epoch on this data. This script asks for the batch that gives each GPU `--tokens-per-gpu` tokens instead.
 """
 import argparse
+import hashlib
 import math
+from pathlib import Path
 
 from nextron_cloud import NexTron
 
+
 def uploaded(client, path, name):
-    """The file as a dataset on the service: uploaded once, found by name afterwards."""
+    """The file as a dataset on the service: uploaded once, found again by its name, which ends in the file's hash."""
+    name = f"{name} {hashlib.sha256(Path(path).read_bytes()).hexdigest()[:8]}"
     for dataset in client.datasets.list():
         if dataset.name == name and dataset.state == "ready":
             return dataset
@@ -48,7 +52,7 @@ def main():
                params={"train_type": args.train_type, "num_train_epochs": args.epochs, "batch_size": batch,
                        "learning_rate": args.learning_rate, "val_dataset_id": validation.id})
     estimate = client.jobs.estimate(**job)
-    print(f"{train.samples:,} samples, {train.tokens[args.model]['total']:,} tokens; batch_size {batch}: "
+    print(f"{train.id}: {train.samples:,} samples, {train.tokens[args.model]['total']:,} tokens; batch_size {batch}: "
           f"{estimate.steps} steps, ${estimate.credits / 100:.2f} held")
     for warning in estimate.warnings:
         print("warning:", warning["text"])
@@ -57,6 +61,8 @@ def main():
     started = client.jobs.create(**job, name=args.name, tags=["chat_sft"])
     print(started.id, "queued")
     done = client.jobs.wait(started.id)
+    if done.state != "succeeded":
+        raise SystemExit(f"{started.id} {done.state}: {done.error}")
     points = client.jobs.metrics(started.id)
     for point in points:
         if point.val_loss is not None:

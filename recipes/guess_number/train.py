@@ -60,11 +60,11 @@ def main():
     parser.add_argument("--learning-rate", type=float, default=2e-6)
     parser.add_argument("--eval-every", type=int, default=0, help="128 fixed numbers, one game each, every this many steps and at the end")
     args = parser.parse_args()
-    held_out = random.Random(0).sample(range(UPPER + 1), 128)
+    fixed = random.Random(0).sample(range(UPPER + 1), 128)
     draw = random.Random(1)
     with NexTron().rl.connect(args.run) as live:
         def evaluate(step):
-            games = play(live, held_out, 1)
+            games = play(live, fixed, 1)
             solved = [game for game in games if game["reward"] == 1.0]
             print(json.dumps({"eval_step": step, "solved": round(len(solved) / len(games), 3),
                               "guesses_when_solved": round(sum(len(g["samples"]) for g in solved) / max(1, len(solved)), 2),
