@@ -25,6 +25,7 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 | [`math_rft`](recipes/math_rft/) | RFT | MATH with the built-in `boxed` reward: NexTron runs the whole loop |
 | [`math_rl`](recipes/math_rl/) | Serverless RL | MATH with your own grader |
 | [`guess_number`](recipes/guess_number/) | Serverless RL | a multi-turn game: find a hidden number from "too low" / "too high" |
+| [`code_rl`](recipes/code_rl/) | Serverless RL | competitive programming: your code runs each solution's tests in a sandbox, a failed solution gets one more attempt |
 | [`code`](docs/recipes.md#code-multi-turn-with-a-tool) | Serverless RL, `tinker` SDK | competitive programming: two turns with a tool, the generated code runs in a sandbox (tinker-cookbook's `code_rl`, unchanged) |
 | tinker-cookbook `math`, `gsm8k`, `sl` | Serverless RL, `tinker` SDK | [tinker-cookbook](https://github.com/thinking-machines-lab/tinker-cookbook)'s recipes, unchanged |
 
