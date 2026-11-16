@@ -30,6 +30,7 @@ job_...`), so you can try it before downloading it.
 | [`math_rft`](math_rft/) | RFT | MATH with the built-in `boxed` reward | Qwen3.8-27B: reward 0.75 -> 0.87 in 10 rounds, replies half as long |
 | [`math_rl`](math_rl/) | Serverless RL | MATH with your own grader | MATH-500 35.0% -> 78.0% in 10 steps (Qwen3.8-27B) |
 | [`guess_number`](guess_number/) | Serverless RL | a multi-turn game: guess a hidden number from "too low" / "too high" | Qwen3.8-27B: 75.8% of evaluation games solved before, training reward 0.99 from step 2 |
+| [`code_rl`](code_rl/) | Serverless RL | competitive programming: your code runs each solution's tests in a sandbox, a failed solution gets one more attempt | 687 Codeforces and LiveCodeBench problems, all tests pass: 44.3% -> 54.1% in 6 steps (Qwen3.8-27B) |
 | [`code`](../docs/recipes.md#code-multi-turn-with-a-tool) | Serverless RL, `tinker` SDK | competitive programming: two turns with a tool, the generated code runs in a sandbox | 687 Codeforces and LiveCodeBench problems, all tests pass: 20.7% -> 37.8% in 10 steps (Qwen3.8-27B) |
 
 The tinker-cookbook recipes (`math`, `code`, `gsm8k`, `sl`) run unchanged on an RL run: `nextron-cookbook run <name>`,
