@@ -17,20 +17,22 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 | [`rl_basic.py`](recipes/rl_basic.py) | Serverless RL | arithmetic with a 0/1 reward, 5 steps |
 | [`tinker_loop.py`](recipes/tinker_loop.py) | Serverless RL, `tinker` SDK | sample, score, train one step |
 | [`chat_sft`](recipes/chat_sft/) | Managed SFT | [NoRobots](https://huggingface.co/datasets/HuggingFaceH4/no_robots): 9,500 human-written conversations |
+| [`math_rft`](recipes/math_rft/) | RFT | MATH with the built-in `boxed` reward: NexTron runs the whole loop |
 | [`math_rl`](recipes/math_rl/) | Serverless RL | MATH with your own grader |
 | [`guess_number`](recipes/guess_number/) | Serverless RL | a multi-turn game: find a hidden number from "too low" / "too high" |
 | tinker-cookbook `math`, `code`, `gsm8k`, `sl` | Serverless RL, `tinker` SDK | [tinker-cookbook](https://github.com/thinking-machines-lab/tinker-cookbook)'s recipes, unchanged |
 
 Each recipe's settings and measured results are in its own README; an overview is in [recipes/](recipes/README.md).
 
-## Two ways to train
+## Three ways to train
 
 | | You send | NexTron runs | Billed |
 |---|---|---|---|
 | **Managed SFT** | a dataset and settings | the whole job; you get a checkpoint | per million tokens trained |
+| **RFT** (reinforcement fine-tuning) | prompts with answers and a built-in reward | the whole GRPO loop; you get a checkpoint | per million tokens |
 | **Serverless RL** | prompts and rewards from your own loop | every sample and every optimizer step, on GPUs kept for you | by the second the RL run is ready |
 
-After either, an **inference run** serves the trained model with an OpenAI-compatible API, so you can try it before
+After any of them, an **inference run** serves the trained model with an OpenAI-compatible API, so you can try it before
 downloading it.
 
 ## Quickstart: managed SFT

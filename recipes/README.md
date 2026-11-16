@@ -3,14 +3,16 @@
 Each recipe is a task with the settings we measured on NexTron Cloud, the command that runs it, and the results. The
 scripts use the `nextron-cloud` SDK only, so they are short enough to copy into your own code.
 
-NexTron Cloud has two ways to train:
+NexTron Cloud has three ways to train:
 
 - **Managed SFT**: you send a dataset and settings; NexTron runs the whole supervised fine-tuning job and keeps the
   checkpoint. Billed per token.
+- **RFT** (reinforcement fine-tuning): you send prompts with their answers; NexTron samples replies, scores them with a
+  built-in reward (`boxed` or `exact`) and trains with GRPO, round after round, and keeps the checkpoint. Billed per token.
 - **Serverless RL**: an RL run is a model loaded on NexTron's GPUs; your own loop samples, scores in your own code and
   trains, one step at a time. Billed by the time the run is ready.
 
-After either, an **inference run** serves the trained model on the same GPUs (`nextron-cloud inference start --job
+After any of them, an **inference run** serves the trained model on the same GPUs (`nextron-cloud inference start --job
 job_...`), so you can try it before downloading it.
 
 ## Getting started
@@ -25,6 +27,7 @@ job_...`), so you can try it before downloading it.
 | Recipe | Mode | Task | Result |
 |---|---|---|---|
 | [`chat_sft`](chat_sft/) | managed SFT | NoRobots: 9,500 human-written conversations | Qwen3.8-27B, Gemma-4-26B, Muse-Glimmer-30B: $1.43-$8.47 a run |
+| [`math_rft`](math_rft/) | RFT | MATH with the built-in `boxed` reward | Qwen3.8-27B: reward 0.75 -> 0.87 in 10 rounds, replies half as long |
 | [`math_rl`](math_rl/) | Serverless RL | MATH with your own grader | MATH-500 35.0% -> 78.0% in 10 steps (Qwen3.8-27B) |
 | [`guess_number`](guess_number/) | Serverless RL | a multi-turn game: guess a hidden number from "too low" / "too high" | Qwen3.8-27B: 75.8% of held-out games solved before, training reward 0.99 from step 2 |
 
