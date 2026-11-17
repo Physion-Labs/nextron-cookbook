@@ -12,7 +12,7 @@ import subprocess
 import sys
 import time
 
-from nextron_cookbook.recipes import RECIPES, arguments
+from nextron_cookbook.recipes import MODEL, RECIPES, arguments
 
 
 def run_env():
@@ -29,6 +29,17 @@ def command(name, overrides):
     if not any(a.startswith("log_path=") for a in args):
         args.append(f"log_path=runs/{name}-{time.strftime('%m%d-%H%M%S')}")
     return [sys.executable, "-m", RECIPES[name].module, *args]
+
+
+def check_model(cmd):
+    """Stop before a recipe drives a run of another model: it would train on token ids of its own model's tokenizer."""
+    import tinker
+
+    asked = next(a for a in cmd if a.startswith("model_name=")).removeprefix("model_name=")
+    served = tinker.RestClient().get_server_capabilities().result().supported_models[0].model_name
+    if served != asked:
+        raise SystemExit(f"This RL run trains {served}; the recipe's tokenizer and chat template are {asked}'s. "
+                         f"The recipes are tested on {MODEL}: `nextron-cloud rl start --model qwen3.8-27b`.")
 
 
 def cmd_list(_args):
@@ -51,6 +62,7 @@ def cmd_show(args):
 def cmd_run(args):
     run_env()
     cmd = command(args.recipe, args.overrides)
+    check_model(cmd)
     print("+ " + shlex.join(cmd), flush=True)
     code = subprocess.call(cmd)
     parts = os.environ["TINKER_BASE_URL"].rstrip("/").split("/")   # .../sessions/<id>/tinker
@@ -70,7 +82,12 @@ def cmd_check(_args):
     for model in models:
         print(f"model {model.model_name}  max context {model.max_context_length}")
     name = models[0].model_name
-    tokenizer = tokenizer_utils.get_tokenizer(name)
+    try:
+        tokenizer = tokenizer_utils.get_tokenizer(name)
+    except OSError as error:
+        raise SystemExit(f"The run answers, but its tokenizer could not be loaded, so no reply is sampled: {error}\n"
+                         f"The recipes here are set up for {MODEL}; nextron-cloud's own calls (`client.rl.connect`) "
+                         f"need no tokenizer.") from None
     sampler = tinker.ServiceClient().create_sampling_client(base_model=name).result()
     prompt = tinker.ModelInput.from_ints(tokenizer.encode("The capital of France is"))
     started = time.time()

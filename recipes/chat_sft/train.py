@@ -46,7 +46,10 @@ def main():
     client = NexTron()
     train = uploaded(client, "no_robots_train.jsonl", "no_robots train")
     validation = uploaded(client, "no_robots_val.jsonl", "no_robots val")
-    gpus = next(m for m in client.models() if m.id == args.model).layouts[args.layout].gpus
+    layouts = next(m for m in client.models() if m.id == args.model).layouts
+    if args.layout not in layouts:   # the batch is sized for the layout's GPUs, so it is named, not "auto"
+        raise SystemExit(f"{args.model} trains on {', '.join(layouts)}: pass one with --layout")
+    gpus = layouts[args.layout].gpus
     batch = batch_for(train, args.model, gpus, args.tokens_per_gpu)
     job = dict(model=args.model, dataset_id=train.id, layout=args.layout,
                params={"train_type": args.train_type, "num_train_epochs": args.epochs, "batch_size": batch,
@@ -60,13 +63,14 @@ def main():
         return
     started = client.jobs.create(**job, name=args.name, tags=["chat_sft"])
     print(started.id, "queued")
+    for event in client.jobs.events(started.id, follow=True):   # ends when training is over
+        if event.type == "training.validation":
+            total = f" of {estimate.steps}" if estimate.steps else ""   # a model with a tuned pack plans no step count
+            print(f"step {event.data['step']:>4}{total}  val_loss {event.data['val_loss']:.4f}", flush=True)
     done = client.jobs.wait(started.id)
     if done.state != "succeeded":
         raise SystemExit(f"{started.id} {done.state}: {done.error}")
     points = client.jobs.metrics(started.id)
-    for point in points:
-        if point.val_loss is not None:
-            print(f"step {point.step:>4} of {point.total_steps}  loss {point.loss:.4f}  val_loss {point.val_loss:.4f}")
     speeds = sorted(point.tokens_per_s_per_gpu for point in points[1:])   # the first step compiles kernels
     speed = f"{speeds[len(speeds) // 2]:,} tokens/s/GPU (median)," if speeds else "one step: no steady speed,"
     print(done.state, speed, f"${client.jobs.billing(started.id).charged_credits / 100:.2f} charged")

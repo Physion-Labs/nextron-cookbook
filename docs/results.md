@@ -57,7 +57,9 @@ trains only about 31K tokens, so the fixed cost of a step (about 7 s) dominates 
 `nextron-cookbook run sl` (the cookbook's `sl_basic`, `loss_fn=cross_entropy`, 128 conversations of no_robots a step,
 learning rate 1e-5): train NLL 2.17, 1.81, 1.65, 1.70, 1.46 over the first five steps; with `eval_every=2`, test NLL
 2.29 at step 0 and 1.71 at step 2 (500 conversations, `compute_logprobs`). A step trains in 8.5 s; the
-cookbook's own rendering of a batch takes over a minute on one CPU core, which is what you wait for.
+cookbook's own rendering of a batch takes over a minute on one CPU core, which is what you wait for. These numbers
+were taken with the data rendered by `sl_basic`'s default for the model (`qwen3_8_xhigh_reasoning`); the recipe now
+renders it with thinking off like the others, and has not been measured again.
 
 ## rl_basic and rl_loop
 

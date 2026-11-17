@@ -40,8 +40,9 @@ Each recipe's settings and measured results are in its own README; an overview i
 | **RFT** (reinforcement fine-tuning) | prompts with answers and a built-in reward | the whole GRPO loop; you get a checkpoint | per million tokens |
 | **Serverless RL** | prompts and rewards from your own loop | every sample and every optimizer step, on GPUs kept for you | by the second the RL run is ready |
 
-After any of them, an **inference run** serves the trained model with an OpenAI-compatible API, so you can try it before
-downloading it, on the models that list `inference` in `nextron-cloud models`.
+After a job (Managed SFT, DPO or RFT), an **inference run** serves the trained model with an OpenAI-compatible API, so
+you can try it before downloading it, on the models that list `inference` in `nextron-cloud models`. The model of a
+Serverless RL run is downloaded instead: an inference run takes a job's id, not a run's.
 
 ## Quickstart: managed SFT
 

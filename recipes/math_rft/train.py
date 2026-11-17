@@ -48,9 +48,12 @@ def main():
     started = client.jobs.create(**job, name="math_rft", tags=["math_rft"])
     print(started.id, "queued")
     done = client.jobs.wait(started.id)
+    if done.state != "succeeded":
+        raise SystemExit(f"{started.id} {done.state}: {done.error}")
     for point in client.jobs.metrics(started.id):
+        whole = f" of {point.round_time_s:.0f} s" if point.round_time_s is not None else ""   # the first round has none
         print(f"round {point.step:>3}  reward {point.reward_mean:.3f}  flat groups {point.zero_variance_fraction:.2f}  "
-              f"reply {point.completion_length_mean} tokens  sampling {point.generation_s:.0f} s of {point.round_time_s:.0f} s")
+              f"reply {point.completion_length_mean} tokens  sampling {point.generation_s:.0f} s{whole}")
     print(done.state, f"${client.jobs.billing(started.id).charged_credits / 100:.2f} charged")
 
 

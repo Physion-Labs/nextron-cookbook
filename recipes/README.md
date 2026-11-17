@@ -15,8 +15,9 @@ NexTron Cloud has four ways to train:
 - **Serverless RL**: an RL run is a model loaded on NexTron's GPUs; your own loop samples, scores in your own code and
   trains, one step at a time. Billed by the time the run is ready.
 
-After any of them, an **inference run** serves the trained model on the same GPUs (`nextron-cloud inference start --job
-job_...`), so you can try it before downloading it, on the models that list `inference` in `nextron-cloud models`.
+After a job (Managed SFT, DPO or RFT), an **inference run** serves the trained model on the same GPUs (`nextron-cloud
+inference start --job job_...`), so you can try it before downloading it, on the models that list `inference` in
+`nextron-cloud models`. The model of a Serverless RL run is downloaded instead: an inference run takes a job's id.
 
 ## Getting started
 

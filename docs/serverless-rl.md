@@ -40,10 +40,13 @@ after 3 minutes, and `--max-hours` and `--idle-timeout` remain as limits.
 An RL run holds **one training loop**. It begins to stop when:
 
 - you close it;
-- your training client finishes: the `tinker` SDK ends its session when the process exits normally, and the state
-  becomes `closing` within about 15 seconds;
-- your training client disappears (killed, or its network is gone): the SDK's heartbeats stop, and after 3 minutes
-  without one the run stops as if the client had finished. Stop it yourself to stop billing sooner;
+- your training client ends its session: a `with tinker.ServiceClient() as service:` block ends, or you call
+  `service.close("success").result()`. The state becomes `closing` within about 15 seconds. tinker-cookbook's
+  `rl.train` and `supervised.train` loops, which the recipes here run, do this;
+- your training client goes away without ending its session: a script that made a bare `tinker.ServiceClient()` and
+  returned (the SDK does not end the session by itself when the process exits), a killed process, a lost network. The
+  SDK's heartbeats stop, and after 3 minutes without one the run stops as if the client had finished. Those minutes
+  are billed: stop it yourself to stop billing sooner;
 - `--max-hours` have passed;
 - `--idle-timeout` seconds (30 minutes unless you set it) passed without a sample or a training step.
 

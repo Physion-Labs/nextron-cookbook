@@ -31,6 +31,8 @@ def main():
     started = client.jobs.create(**job, name="sft_basic")
     print(started.id, "queued; training starts about 2 minutes after a GPU setup is free")
     done = client.jobs.wait(started.id)
+    if done.state != "succeeded":
+        raise SystemExit(f"{started.id} {done.state}: {done.error}")
     for point in client.jobs.metrics(started.id):
         val = f"  val_loss {point.val_loss:.4f}" if point.val_loss is not None else ""
         print(f"step {point.step:>3}  loss {point.loss:.4f}  {point.tokens_per_s_per_gpu:,} tokens/s/GPU{val}")

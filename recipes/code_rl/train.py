@@ -111,7 +111,9 @@ def main():
             if args.eval_every and step % args.eval_every == 0:
                 evaluate(step)
             started = time.time()
-            games = play(live, train[step * args.problems:(step + 1) * args.problems], args.episodes, args.max_tokens)
+            first = step * args.problems
+            tasks = [train[i % len(train)] for i in range(first, first + args.problems)]   # past the last problem: from the first again
+            games = play(live, tasks, args.episodes, args.max_tokens)
             episodes = [Episode(samples=game["samples"], reward=game["reward"], group=f"{step}-{game['group']}") for game in games]
             result = live.train(episodes=episodes, learning_rate=args.learning_rate)
             print(json.dumps({"step": step, "episodes": len(games), "reward": round(result.reward_mean, 3),

@@ -76,7 +76,8 @@ def main():
             if args.eval_every and step % args.eval_every == 0:
                 evaluate(step)
             started = time.time()
-            problems = with_answers(train.select(range(taken, taken + count)))
+            picked = [i % len(train) for i in range(taken, taken + count)]   # past the last problem: from the first again
+            problems = with_answers(train.select(picked))
             taken += count
             batch = live.sample([prompt(p) for p, _ in problems], n=args.replies, max_tokens=args.max_tokens)
             scored = [[score(reply, answer) for reply in group] for (_, answer), group in zip(problems, batch)]

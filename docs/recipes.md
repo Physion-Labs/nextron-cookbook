@@ -7,6 +7,9 @@ prints the command; `nextron-cookbook run <name> key=value ...` runs it with you
 An RL run holds one training loop, so each `nextron-cookbook run` needs its own RL run: start, wait,
 `eval "$(nextron-cloud rl env rl_...)"` again, run, stop.
 
+The recipes are set up for `qwen3.8-27b` (its tokenizer and chat template): `nextron-cookbook run` refuses an RL run
+of another model.
+
 ## Reading the results
 
 `metrics.jsonl` has one row per optimizer step, numbered from 0, and a last row with totals. Held-out evaluations are

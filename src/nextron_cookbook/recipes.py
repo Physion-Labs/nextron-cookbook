@@ -42,7 +42,10 @@ RECIPES = {
     "sl": Recipe(
         "tinker_cookbook.recipes.sl_basic",
         "Supervised fine-tuning on chat data (no_robots) through an RL run: loss_fn cross_entropy.",
-        {"model_name": MODEL, "save_every": "0", "learning_rate": "1e-5", "eval_every": "0"}),
+        # sl_basic renders its data with the model's default renderer (thinking on) unless the dataset is given here.
+        {**COMMON, "learning_rate": "1e-5", "eval_every": "0",
+         "dataset_builder": "tinker_cookbook.recipes.chat_sl.chat_datasets:NoRobotsBuilder",
+         "dataset_builder.common_config.max_length": "32768", "dataset_builder.common_config.batch_size": "128"}),
 }
 
 
@@ -54,4 +57,7 @@ def arguments(name, overrides):
         if not sep:
             raise SystemExit(f"expected key=value, got {item!r}")
         args[key] = value
+    if "dataset_builder" in args:
+        args.setdefault("dataset_builder.common_config.model_name_for_tokenizer", args["model_name"])
+        args.setdefault("dataset_builder.common_config.renderer_name", args["renderer_name"])
     return [f"{key}={value}" for key, value in args.items()]
