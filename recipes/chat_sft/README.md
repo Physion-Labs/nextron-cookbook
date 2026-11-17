@@ -18,6 +18,7 @@ Then try the model without downloading it:
 nextron-cloud inference start --job job_... --max-hours 1 --yes
 nextron-cloud inference wait inf_...
 nextron-cloud inference url inf_...                   # the base URL for an OpenAI client
+nextron-cloud inference stop inf_... --wait           # always, when you are done: it is billed by time
 ```
 
 ## Settings

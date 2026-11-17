@@ -65,3 +65,50 @@ def test_a_failed_solution_gets_its_test_output_and_one_more_attempt(monkeypatch
     (episode,) = live.train.call_args.kwargs["episodes"]
     assert episode.samples == [wrong, right]
     assert episode.reward == 1.0
+
+
+def test_a_one_step_job_still_reports_its_charge(tmp_path, monkeypatch, capsys):
+    for name in ("no_robots_train.jsonl", "no_robots_val.jsonl"):
+        (tmp_path / name).write_text("{}\n")
+    monkeypatch.chdir(tmp_path)
+    client = MagicMock()
+    client.datasets.list.return_value = []
+    client.datasets.wait.return_value = NS(id="ds_1", samples=100, tokens={"qwen3.8-27b": {"total": 100_000}})
+    client.models.return_value = [NS(id="qwen3.8-27b", layouts={"1x8-h100": NS(gpus=8)})]
+    client.jobs.estimate.return_value = NS(steps=1, credits=1, warnings=[])
+    client.jobs.create.return_value = NS(id="job_1")
+    client.jobs.wait.return_value = NS(state="succeeded", error=None)
+    client.jobs.metrics.return_value = [NS(step=1, total_steps=1, loss=1.0, val_loss=None, tokens_per_s_per_gpu=900)]
+    client.jobs.billing.return_value = NS(charged_credits=3)
+    run("chat_sft/train.py", client, ["--yes"], monkeypatch)
+    assert "$0.03 charged" in capsys.readouterr().out
+
+
+def code_rl(monkeypatch, check):
+    """recipes/code_rl with a stand-in for the sandbox: `check(tests, code)` is its grader."""
+    monkeypatch.setitem(sys.modules, "nextron_cloud", NS(NexTron=None, Episode=None))
+    recipe = runpy.run_path(str(RECIPES / "code_rl/train.py"))
+    monkeypatch.setitem(recipe["run_tests"].__globals__, "sandbox_check_correctness", check)
+    return recipe
+
+
+def test_a_sandbox_that_does_not_answer_stops_the_loop(monkeypatch):
+    async def down(tests, code):
+        return False, {"error": "connection refused"}
+
+    recipe = code_rl(monkeypatch, down)
+    live = MagicMock()
+    live.sample.return_value = [(NS(text="```python\nprint(1)\n```"),)]
+    with pytest.raises(RuntimeError, match="connection refused"):
+        recipe["play"](live, [NS(problem="p", tests=[])], 1, 16)
+
+
+def test_no_second_attempt_is_sampled_when_every_first_one_passes(monkeypatch):
+    async def passes(tests, code):
+        return True, {"run_result": {"stdout": ""}}
+
+    recipe = code_rl(monkeypatch, passes)
+    live = MagicMock()
+    live.sample.return_value = [(NS(text="```python\nprint(1)\n```"),)]
+    games = recipe["play"](live, [NS(problem="p", tests=[])], 1, 16)
+    assert live.sample.call_count == 1 and games[0]["reward"] == 1

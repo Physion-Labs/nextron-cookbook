@@ -68,8 +68,8 @@ def main():
         if point.val_loss is not None:
             print(f"step {point.step:>4} of {point.total_steps}  loss {point.loss:.4f}  val_loss {point.val_loss:.4f}")
     speeds = sorted(point.tokens_per_s_per_gpu for point in points[1:])   # the first step compiles kernels
-    print(done.state, f"{speeds[len(speeds) // 2]:,} tokens/s/GPU (median),",
-          f"${client.jobs.billing(started.id).charged_credits / 100:.2f} charged")
+    speed = f"{speeds[len(speeds) // 2]:,} tokens/s/GPU (median)," if speeds else "one step: no steady speed,"
+    print(done.state, speed, f"${client.jobs.billing(started.id).charged_credits / 100:.2f} charged")
 
 
 if __name__ == "__main__":

@@ -3,17 +3,20 @@
 Each recipe is a task with the settings we measured on NexTron Cloud, the command that runs it, and the results. The
 scripts use the `nextron-cloud` SDK only, so they are short enough to copy into your own code.
 
-NexTron Cloud has three ways to train:
+NexTron Cloud has four ways to train:
 
 - **Managed SFT**: you send a dataset and settings; NexTron runs the whole supervised fine-tuning job and keeps the
   checkpoint. Billed per token.
+- **DPO** (preference training): you send prompts, each with a reply you prefer and one you reject; NexTron trains the
+  model to make the preferred one more likely and keeps the checkpoint. Billed per token. No recipe here yet: see
+  `nextron-cloud guide dpo`.
 - **RFT** (reinforcement fine-tuning): you send prompts with their answers; NexTron samples replies, scores them with a
   built-in reward (`boxed` or `exact`) and trains with GRPO, round after round, and keeps the checkpoint. Billed per token.
 - **Serverless RL**: an RL run is a model loaded on NexTron's GPUs; your own loop samples, scores in your own code and
   trains, one step at a time. Billed by the time the run is ready.
 
 After any of them, an **inference run** serves the trained model on the same GPUs (`nextron-cloud inference start --job
-job_...`), so you can try it before downloading it.
+job_...`), so you can try it before downloading it, on the models that list `inference` in `nextron-cloud models`.
 
 ## Getting started
 

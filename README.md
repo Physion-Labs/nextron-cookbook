@@ -31,16 +31,17 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 
 Each recipe's settings and measured results are in its own README; an overview is in [recipes/](recipes/README.md).
 
-## Three ways to train
+## Four ways to train
 
 | | You send | NexTron runs | Billed |
 |---|---|---|---|
 | **Managed SFT** | a dataset and settings | the whole job; you get a checkpoint | per million tokens trained |
+| **DPO** (preference training) | prompts, each with a chosen and a rejected reply | the whole job; you get a checkpoint | per million tokens trained |
 | **RFT** (reinforcement fine-tuning) | prompts with answers and a built-in reward | the whole GRPO loop; you get a checkpoint | per million tokens |
 | **Serverless RL** | prompts and rewards from your own loop | every sample and every optimizer step, on GPUs kept for you | by the second the RL run is ready |
 
 After any of them, an **inference run** serves the trained model with an OpenAI-compatible API, so you can try it before
-downloading it.
+downloading it, on the models that list `inference` in `nextron-cloud models`.
 
 ## Quickstart: managed SFT
 
@@ -78,6 +79,7 @@ An RL run holds one training loop: start a new one for the next recipe.
 nextron-cloud inference start --job job_... --max-hours 1 --yes   # the job's checkpoint on our GPUs, no download
 nextron-cloud inference wait inf_...
 nextron-cloud inference url inf_...                               # the base URL for an OpenAI client
+nextron-cloud inference stop inf_... --wait                       # always, when you are done: it is billed by time
 ```
 
 ## tinker-cookbook on Serverless RL

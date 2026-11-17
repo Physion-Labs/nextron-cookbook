@@ -1,6 +1,6 @@
 # Serverless RL
 
-An RL run is one node of GPUs with a model loaded, serving Tinker's HTTP API. The `tinker` SDK talks to it when
+An RL run is a model loaded on one node of 8 GPUs (two nodes for `qwen3.8-next-180b`), serving Tinker's HTTP API. The `tinker` SDK talks to it when
 `TINKER_BASE_URL` points at it. Your process (the training loop, the environments, the reward code) runs on your
 machine; only tokens, sampler logprobs and advantages travel.
 
@@ -22,7 +22,7 @@ trap 'nextron-cloud rl stop "$RUN"' EXIT
 
 States: `queued` -> `starting` (the model loads; not billed) -> `ready` -> `closing` (not billed) -> `closed`, or `failed`.
 
-Price: per GPU-hour, by the kind of GPU: $3.50 per H100-hour. An RL run has 8 GPUs, and you pay for all of them for the seconds the
+Price: per GPU-hour, by the kind of GPU: $3.50 per H100-hour. An RL run has one node of 8 GPUs (two nodes, 16 GPUs, for `qwen3.8-next-180b`), and you pay for all of them for the seconds the
 RL run is `ready` (`billable_seconds`). `rl start` without `--yes` shows the price and what is held for
 `--max-hours`; a failed RL run costs nothing.
 
@@ -48,7 +48,8 @@ An RL run holds **one training loop**. It begins to stop when:
 - `--idle-timeout` seconds (30 minutes unless you set it) passed without a sample or a training step.
 
 Billing is by the RL run's time from `ready` until it begins to stop. The engine then saves the model if it trained any
-step and releases the GPUs about a minute later (`closed`). The saved model is fetched with the run id:
+step and releases the GPUs about a minute later (`closed`); `qwen3.8-next-180b` takes about 20 minutes to load and
+about 15 to save, neither billed. The saved model is fetched with the run id:
 `nextron-cloud jobs wait-checkpoint rl_...`, `jobs download rl_... DEST`.
 
 ## What each call does

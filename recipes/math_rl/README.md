@@ -10,9 +10,11 @@ export NEXTRON_API_KEY=nk_live_...
 nextron-cloud rl start --model qwen3.8-27b --max-hours 1 --yes
 nextron-cloud rl wait rl_...
 python recipes/math_rl/train.py rl_... --steps 10 --eval-every 10           # MATH-500 at step 0 and 10
-python recipes/math_rl/train.py rl_... --steps 8 --rows 1 --eval-every 4    # steps sized to fill the trainer's rows
 nextron-cloud rl stop rl_... --wait
 ```
+
+The script ends the RL run, and a run holds one training loop: start a new run for another try, for example the
+variant whose steps are sized to fill the trainer's rows, `--steps 8 --rows 1 --eval-every 4`.
 
 ## Settings
 

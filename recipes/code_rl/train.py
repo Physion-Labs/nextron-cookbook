@@ -43,6 +43,8 @@ def run_tests(tests_and_code):
         if code is None:
             return False, "No Python code block found in your reply."
         passed, details = await sandbox_check_correctness(tests, code)
+        if set(details) == {"error"}:   # the sandbox did not answer: there is no verdict to train on
+            raise RuntimeError(f"the sandbox did not run the program: {details['error']}")
         return passed, verdict((details.get("run_result") or {}).get("stdout") or "")
 
     async def every():
@@ -57,6 +59,8 @@ def play(live, tasks, episodes, max_tokens):
              for index, task in enumerate(tasks) for _ in range(episodes)]
     open_games = games
     for attempt in range(ATTEMPTS):
+        if not open_games:
+            break
         batch = live.sample([game["messages"] for game in open_games], max_tokens=max_tokens)
         codes = [extract_code_from_model(reply.text or "") for (reply,) in batch]
         results = run_tests([(game["task"].tests, code) for game, code in zip(open_games, codes)])
