@@ -23,6 +23,8 @@ inference start --job job_...`), so you can try it before downloading it, on the
 - [`sft_basic.py`](sft_basic.py): the smallest managed fine-tune: a sample dataset already on the service, 20 steps,
   validation loss (Gemma-4-26B: 0.6448 -> 0.535, 5,500 tokens/s/GPU, $3.52).
 - [`rl_basic.py`](rl_basic.py): the smallest Serverless RL loop: sample a batch, score it, train, five times.
+- [`rl_images.py`](rl_images.py): the same loop with an image in every prompt (name the colour that fills it): start
+  the run with `--images`, send the pictures once with `add_images`, then name them in the prompts (Qwen3.8-27B: reward 0.85 -> 0.95 -> 0.99 over three steps).
 - [`tinker_loop.py`](tinker_loop.py): the same kind of loop written for the `tinker` SDK, which an RL run also serves.
 
 ## Recipes

@@ -20,6 +20,7 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 |---|---|---|
 | [`sft_basic.py`](recipes/sft_basic.py) | Managed SFT | 20 steps on a sample dataset already on the service |
 | [`rl_basic.py`](recipes/rl_basic.py) | Serverless RL | arithmetic with a 0/1 reward, 5 steps |
+| [`rl_images.py`](recipes/rl_images.py) | Serverless RL | images in the prompts: name a picture's colour, 3 steps |
 | [`tinker_loop.py`](recipes/tinker_loop.py) | Serverless RL, `tinker` SDK | sample, score, train one step |
 | [`chat_sft`](recipes/chat_sft/) | Managed SFT | [NoRobots](https://huggingface.co/datasets/HuggingFaceH4/no_robots): 9,500 human-written conversations |
 | [`chat_dpo`](recipes/chat_dpo/) | DPO | [UltraFeedback](https://huggingface.co/datasets/HuggingFaceH4/ultrafeedback_binarized): 4,000 prompts, each with a preferred and a rejected reply |
@@ -50,12 +51,12 @@ Serverless RL run is downloaded instead: an inference run takes a job's id, not 
 What each model trains and serves, with the longest sample (prompt and reply, in tokens) each method takes. The list
 the service has now, with prices: `nextron-cloud models`, or the console's Models page.
 
-| Model | Size (active) | GPUs | SFT | LoRA | DPO | RFT | Serverless RL | Inference | Images | Longer samples |
+| Model | Size (active) | GPUs | SFT | LoRA | DPO | RFT | Serverless RL | Inference | Images, videos | Longer samples |
 |---|---|---|---|---|---|---|---|---|---|---|
-| `qwen3.8-27b` | 27B | 8 | 64K | 64K | 32K | 16K | 16K | 16K | yes | `qwen3.8-27b-256k`: SFT, 256K |
-| `gemma-4-26b-a4b` | 26B (4B) | 8 | 64K | 64K | 32K | | 16K | 16K | yes | `gemma-4-26b-a4b-256k`: SFT, 256K |
-| `muse-glimmer-30b` | 30B | 8 | 128K | 64K | 32K | | 16K | 16K | | |
-| `qwen3.8-next-180b` | 180B (6B) | 16 | 64K | 64K | 32K | | 16K | | | `qwen3.8-next-180b-256k`: SFT, 256K |
+| `qwen3.8-27b` | 27B | 8 | 64K | 64K | 32K | 16K | 16K | 16K | both | `qwen3.8-27b-256k`: SFT, 256K |
+| `gemma-4-26b-a4b` | 26B (4B) | 8 | 64K | 64K | 32K | | 16K | 16K | both | `gemma-4-26b-a4b-256k`: SFT, 256K |
+| `muse-glimmer-30b` | 30B | 8 | 128K | 64K | 32K | | 16K | 16K | images | |
+| `qwen3.8-next-180b` | 180B (6B) | 16 | 64K | 64K | 32K | | 16K | | both | `qwen3.8-next-180b-256k`: SFT, 256K |
 | `nemotron-3-super-120b` | 120B (12B) | 16 | 64K | 64K | 32K | | | | | `nemotron-3-super-120b-256k`: SFT, 256K |
 | `mimo-311b` | 309B (15B) | 32 | 32K | 32K | 32K | | | | | |
 | `glm-5.3-flash` | 321B (17B) | 32 | 32K | 32K | 32K | | | | | |
@@ -66,6 +67,8 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 GPUs: the H100s of the smallest setup a full-parameter job of that model runs on (some models take larger setups too).
 LoRA runs on fewer for the larger models: 8 for `nemotron-3-super-120b` and `qwen3.8-next-180b`, 16 for `mimo-311b`,
 `glm-5.3-flash` and `minimax-m3.1-flash`, 32 for `deepseek-v4.1-flash`. SFT and DPO train all weights; LoRA trains an adapter. RFT is managed GRPO with a built-in reward; Serverless RL runs your own loop.
+Images and videos go in user messages (SFT, RFT, Serverless RL and the long-context ids; not DPO or validation sets) and
+are opened per organisation: `nextron-cloud models` lists them in a model's `input` when they are open to yours.
 
 ## Quickstart: managed SFT
 
