@@ -6,7 +6,7 @@ gets one more attempt. An episode scores 1 when its last program passes every te
 code block.
 
 The problems, tests and grader are tinker-cookbook's (DeepCoder: 24,287 training problems from PrimeIntellect, TACO and
-LiveCodeBench; 687 test problems from Codeforces and LiveCodeBench), the loop is NexTron's own calls.
+LiveCodeBench; 687 test problems from Codeforces and LiveCodeBench), the loop is NexCloud's own calls.
 
 ```bash
 pip install nextron-cloud "nextron-cookbook @ git+https://github.com/Physion-Labs/nextron-cookbook"

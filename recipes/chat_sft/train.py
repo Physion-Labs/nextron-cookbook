@@ -5,7 +5,7 @@
     python recipes/chat_sft/train.py                 # uploads them, prints the steps and the price; starts nothing
     python recipes/chat_sft/train.py --yes           # start the job, follow it, print the validation loss
 
-NexTron packs a step by tokens, not by samples: without `batch_size` each GPU takes about 64K tokens, which is 5 steps
+NexCloud packs a step by tokens, not by samples: without `batch_size` each GPU takes about 64K tokens, which is 5 steps
 an epoch on this data. This script asks for the batch that gives each GPU `--tokens-per-gpu` tokens instead.
 """
 import argparse

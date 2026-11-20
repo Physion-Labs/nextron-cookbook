@@ -1,4 +1,4 @@
-"""The smallest RL loop on a NexTron RL run: sample, score, train one step, sample again. It uses the tinker SDK and,
+"""The smallest RL loop on a NexCloud RL run: sample, score, train one step, sample again. It uses the tinker SDK and,
 for the chat template and stop sequences only, tinker-cookbook's renderer (pip install tinker tinker-cookbook).
 
     eval "$(nextron-cloud rl env rl_...)"      # TINKER_BASE_URL, TINKER_API_KEY
@@ -41,7 +41,7 @@ if served != MODEL:
                      f"start a run with `nextron-cloud rl start --model qwen3.8-27b`.")
 
 with tinker.ServiceClient() as service:   # leaving the block ends the session: the run stops now, not 3 minutes later
-    training = service.create_lora_training_client(base_model=MODEL).result()   # on NexTron all weights are trained; rank is ignored
+    training = service.create_lora_training_client(base_model=MODEL).result()   # on NexCloud all weights are trained; rank is ignored
     tokenizer = training.get_tokenizer()
     renderer = renderers.get_renderer("qwen3_8_disable_thinking", tokenizer)
     prompt = renderer.build_generation_prompt([{"role": "user", "content": "Name one number below 20. Reply with the number only."}])

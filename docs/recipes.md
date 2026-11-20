@@ -1,6 +1,6 @@
 # Recipes
 
-Each recipe is the cookbook's own module with arguments that were measured on NexTron. `nextron-cookbook show <name>`
+Each recipe is the cookbook's own module with arguments that were measured on NexCloud. `nextron-cookbook show <name>`
 prints the command; `nextron-cookbook run <name> key=value ...` runs it with your changes. Logs go to
 `runs/<name>-<time>/` (`metrics.jsonl`, the cookbook's HTML traces).
 

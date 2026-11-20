@@ -1,6 +1,6 @@
 # MATH with your own grader (Serverless RL)
 
-Hendrycks MATH problems with tinker-cookbook's prompt and grader, driven by NexTron's own calls: `sample` a batch,
+Hendrycks MATH problems with tinker-cookbook's prompt and grader, driven by NexCloud's own calls: `sample` a batch,
 grade every reply on your machine, `train` on the rewards. The reward is 1 for a correct `\boxed{}` answer, minus 0.1
 when the reply is cut at the token limit.
 

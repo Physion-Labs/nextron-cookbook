@@ -4,7 +4,7 @@
     python recipes/sft_basic.py            # the price and the steps; starts nothing
     python recipes/sft_basic.py --yes      # start the job and follow it
 
-You send a dataset id and a few settings; NexTron Cloud runs the whole training job and keeps the checkpoint for you.
+You send a dataset id and a few settings; NexCloud runs the whole training job and keeps the checkpoint for you.
 """
 import argparse
 

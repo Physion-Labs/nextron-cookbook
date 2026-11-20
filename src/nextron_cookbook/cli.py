@@ -1,4 +1,4 @@
-"""nextron-cookbook: run tinker-cookbook recipes on a NexTron RL run with tested settings.
+"""nextron-cookbook: run tinker-cookbook recipes on a NexCloud RL run with tested settings.
 
     nextron-cookbook list
     nextron-cookbook show math
@@ -21,7 +21,7 @@ def run_env():
         raise SystemExit(f"{' and '.join(missing)} not set. Start an RL run first: "
                          f"`nextron-cloud rl start`, then `eval \"$(nextron-cloud rl env <id>)\"`.")
     if "thinkingmachines" in os.environ["TINKER_BASE_URL"]:
-        raise SystemExit("TINKER_BASE_URL points at Tinker, not at a NexTron RL run.")
+        raise SystemExit("TINKER_BASE_URL points at Tinker, not at a NexCloud RL run.")
 
 
 def command(name, overrides):

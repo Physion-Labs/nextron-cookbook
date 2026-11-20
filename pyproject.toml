@@ -1,7 +1,7 @@
 [project]
 name = "nextron-cookbook"
 dynamic = ["version"]
-description = "tinker-cookbook recipes on NexTron Cloud: tested settings, results, and what is supported."
+description = "tinker-cookbook recipes on NexCloud: tested settings, results, and what is supported."
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]

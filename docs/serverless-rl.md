@@ -57,14 +57,14 @@ about 15 to save, neither billed. The saved model is fetched with the run id:
 
 ## What each call does
 
-| Tinker call | On NexTron |
+| Tinker call | On NexCloud |
 |---|---|
 | `create_lora_training_client(base_model=...)` | attaches to the run's model. All weights are trained; rank and the other LoRA settings are ignored. A second training client is refused. |
 | `save_weights_and_get_sampling_client()` | vLLM wakes with the current weights (3-4 s after a step; instant if already awake). |
 | `sample(...)` | joins vLLM's running batch on all 8 GPUs. Equal prompts with equal settings are merged into one request with a larger n. The stop token is part of the reply, with its logprob. |
 | `forward(data, loss_fn)` | no update: vLLM scores the sequences under the current weights (under a second for a few sequences). |
 | `forward_backward(data, loss_fn)` | queued. Nothing runs yet, and its future resolves with the step: do not wait for it before `optim_step`. |
-| `optim_step(adam_params)` | vLLM sleeps; everything queued since the last step trains as one NexTron step with these Adam parameters; the `forward_backward` futures resolve with the trained model's logprobs. |
+| `optim_step(adam_params)` | vLLM sleeps; everything queued since the last step trains as one NexCloud step with these Adam parameters; the `forward_backward` futures resolve with the trained model's logprobs. |
 | `save_state()` / `save_weights...(name)` | returns a path, but named checkpoints during a run are not kept yet. |
 | `create_sampling_client(base_model=...)` | samples from the run's current weights. Refused once training has started, because the base weights are gone from the GPUs. |
 
@@ -80,7 +80,7 @@ again right away; if not, vLLM wakes so the next `sample` is served without a wa
 ## What you will see in the cookbook's output
 
 - `Pricing for Qwen/Qwen3.8-27B: TokenCostRates(...)` and the `cost/*` metrics are the cookbook's own estimate at
-  Tinker's per-token prices. They are not your NexTron bill: an RL run is billed by time (`billable_seconds`).
+  Tinker's per-token prices. They are not your NexCloud bill: an RL run is billed by time (`billable_seconds`).
 - The run name contains `32rank` and the end of a run prints `tinker://nx-.../weights/final`. Both come from the
   cookbook: all weights are trained, and those paths are not something you can load. The trained model is the
   run's (`jobs wait-checkpoint rl_...`). `rl_...` is the only id the `nextron-cloud` commands take.

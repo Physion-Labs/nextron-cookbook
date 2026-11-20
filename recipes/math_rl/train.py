@@ -1,4 +1,4 @@
-"""The `math` recipe's task with NexTron's own calls instead of the tinker SDK: sample a batch, score it here, train.
+"""The `math` recipe's task with NexCloud's own calls instead of the tinker SDK: sample a batch, score it here, train.
 
 Same problems (Hendrycks MATH), prompt and reward as `nextron-cookbook run math`, taken from tinker-cookbook's
 environment, so the two can be compared. Needs `nextron-cloud` and `nextron-cookbook[math]`.

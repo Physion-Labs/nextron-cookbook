@@ -4,7 +4,7 @@
 [![nextron-cloud on PyPI](https://img.shields.io/pypi/v/nextron-cloud?include_prereleases&label=nextron-cloud)](https://pypi.org/project/nextron-cloud/)
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
-Tested recipes for [NexTron Cloud](https://nextron.physionlabs.ai). Each one is a real task with the settings we
+Tested recipes for [NexCloud](https://nextron.physionlabs.ai). Each one is a real task with the settings we
 measured, the command that runs it and the results it got on the live service.
 
 ```bash
@@ -23,7 +23,7 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 | [`tinker_loop.py`](recipes/tinker_loop.py) | Serverless RL, `tinker` SDK | sample, score, train one step |
 | [`chat_sft`](recipes/chat_sft/) | Managed SFT | [NoRobots](https://huggingface.co/datasets/HuggingFaceH4/no_robots): 9,500 human-written conversations |
 | [`chat_dpo`](recipes/chat_dpo/) | DPO | [UltraFeedback](https://huggingface.co/datasets/HuggingFaceH4/ultrafeedback_binarized): 4,000 prompts, each with a preferred and a rejected reply |
-| [`math_rft`](recipes/math_rft/) | RFT | MATH with the built-in `boxed` reward: NexTron runs the whole loop |
+| [`math_rft`](recipes/math_rft/) | RFT | MATH with the built-in `boxed` reward: NexCloud runs the whole loop |
 | [`math_rl`](recipes/math_rl/) | Serverless RL | MATH with your own grader |
 | [`guess_number`](recipes/guess_number/) | Serverless RL | a multi-turn game: find a hidden number from "too low" / "too high" |
 | [`code_rl`](recipes/code_rl/) | Serverless RL | competitive programming: your code runs each solution's tests in a sandbox, a failed solution gets one more attempt |
@@ -34,7 +34,7 @@ Each recipe's settings and measured results are in its own README; an overview i
 
 ## Four ways to train
 
-| | You send | NexTron runs | Billed |
+| | You send | NexCloud runs | Billed |
 |---|---|---|---|
 | **Managed SFT** | a dataset and settings | the whole job; you get a checkpoint | per million tokens trained |
 | **DPO** (preference training) | prompts, each with a chosen and a rejected reply | the whole job; you get a checkpoint | per million tokens trained |
@@ -137,7 +137,7 @@ nextron-cloud rl stop rl_... --wait
 ## Documentation
 
 - [recipes/](recipes/README.md): every recipe, its settings and results
-- [docs/serverless-rl.md](docs/serverless-rl.md): what an RL run is, what each Tinker call does on NexTron, lifecycle
+- [docs/serverless-rl.md](docs/serverless-rl.md): what an RL run is, what each Tinker call does on NexCloud, lifecycle
 - [docs/parameters.md](docs/parameters.md): what you can change, and where
 - [docs/compatibility.md](docs/compatibility.md): Tinker API and cookbook recipes, supported or not
 - [docs/recipes.md](docs/recipes.md): the tinker-cookbook recipes: setup, command, what to expect

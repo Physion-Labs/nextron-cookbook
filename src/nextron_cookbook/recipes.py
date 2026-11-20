@@ -1,4 +1,4 @@
-"""tinker-cookbook recipes with the settings they were measured with on NexTron (docs/results.md).
+"""tinker-cookbook recipes with the settings they were measured with on NexCloud (docs/results.md).
 
 A recipe here is the cookbook's own module plus `key=value` arguments. Nothing is copied from the cookbook: `run`
 starts `python -m <module>` with these arguments, and any `key=value` you add replaces ours.
@@ -8,7 +8,7 @@ from dataclasses import dataclass
 MODEL = "Qwen/Qwen3.8-27B"
 # Full-parameter training: the learning rate is about 10x lower than the cookbook's LoRA defaults.
 COMMON = {"model_name": MODEL, "renderer_name": "qwen3_8_disable_thinking", "save_every": "0"}
-# The cookbook's default loss for these recipes is stable_reinforce, which NexTron does not have yet.
+# The cookbook's default loss for these recipes is stable_reinforce, which NexCloud does not have yet.
 RL = {"loss_fn": "importance_sampling", "learning_rate": "2e-6", "behavior_if_log_dir_exists": "delete"}
 
 

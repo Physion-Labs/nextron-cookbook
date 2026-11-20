@@ -1,7 +1,7 @@
 # MATH with reinforcement fine-tuning (RFT)
 
-Reinforcement fine-tuning: you send prompts with their answers, NexTron runs the whole loop with GRPO and a
-built-in reward, and you get a checkpoint. NexTron runs the whole loop: each round it samples 8 replies to 64 prompts, scores them with the built-in `boxed`
+Reinforcement fine-tuning: you send prompts with their answers, NexCloud runs the whole loop with GRPO and a
+built-in reward, and you get a checkpoint. NexCloud runs the whole loop: each round it samples 8 replies to 64 prompts, scores them with the built-in `boxed`
 reward (1 when the last `\boxed{}` equals the answer, compared as numbers), and trains one step. You send a dataset of
 prompts with answers and get a checkpoint. No code runs on your side during training.
 

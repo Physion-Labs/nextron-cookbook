@@ -1,4 +1,4 @@
-"""Reinforcement fine-tuning (RFT, GRPO) on MATH: NexTron runs the whole loop (sampling, the `boxed` reward, training); you only send prompts.
+"""Reinforcement fine-tuning (RFT, GRPO) on MATH: NexCloud runs the whole loop (sampling, the `boxed` reward, training); you only send prompts.
 
     export NEXTRON_API_KEY=nk_live_...
     python recipes/math_rft/data.py                    # math_numeric.jsonl

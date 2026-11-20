@@ -71,13 +71,13 @@ The cookbook's two tutorial loops as shipped, a few steps each, with `learning_r
 | `rl_basic` (2,048 replies a step) | 0.640, 0.712 | 41 s (the first: 125 s) | 820-850K | 2,480 |
 | `rl_loop` | 0.758, 0.750, 0.802 | 17-22 s (the first: 92 s) | 290-390K | 2,200-2,290 |
 
-## The MATH loop with NexTron's own calls
+## The MATH loop with NexCloud's own calls
 
 `python recipes/math_rl/train.py rl_... --steps 10 --eval-every 10`: the `math` recipe's problems, prompt and reward, with
 `rl.connect` (`sample`, score here, `train`) instead of the tinker SDK. 64 problems x 8 replies, 512 tokens,
 learning rate 2e-6.
 
-| | NexTron's own calls | The cookbook recipe through Tinker's API |
+| | NexCloud's own calls | The cookbook recipe through Tinker's API |
 |---|---|---|
 | MATH-500 at step 0 / 10 | 35.0% / 78.0% | 34.8% / 76.4% |
 | A step while replies are ~410-450 tokens | 43-48 s | about 60 s |

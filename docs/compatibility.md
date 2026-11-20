@@ -47,7 +47,7 @@ One `optim_step` takes one `loss_fn`: every `forward_backward` since the last st
 | `sl_basic` | tested, with its test-set loss (`compute_logprobs`) | |
 | `chat_sl` | same loop as `sl_basic`; untested | |
 | `rl_loop` | tested (3 steps) | `loss_fn=importance_sampling learning_rate=1e-6` |
-| `verifiers_rl` | cookbook bug at 0.6.1 (`custom_do_group_rollout` lacks `termination`) | not a NexTron issue |
+| `verifiers_rl` | cookbook bug at 0.6.1 (`custom_do_group_rollout` lacks `termination`) | not a NexCloud issue |
 | `rubric`, `preference`, `multiplayer_rl` | not in one RL run | they need a second model (grader or opponent) |
 | `distillation`, `prompt_distillation` | not in one RL run | they need a teacher model |
 | `search_tool`, `harbor_rl` | untested | |

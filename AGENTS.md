@@ -1,6 +1,6 @@
 # For coding agents
 
-This repository runs tinker-cookbook recipes on NexTron Cloud Serverless RL. Read `README.md`, then
+This repository runs tinker-cookbook recipes on NexCloud Serverless RL. Read `README.md`, then
 `docs/serverless-rl.md`, `docs/parameters.md` and `docs/compatibility.md` before running anything.
 
 Rules:
