@@ -55,16 +55,17 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 | `qwen3.8-27b` | 27B | 8 | 64K | 64K | 32K | 16K | 16K | 16K | yes | `qwen3.8-27b-256k`: SFT, 256K |
 | `gemma-4-26b-a4b` | 26B (4B) | 8 | 64K | 64K | 32K | | 16K | 16K | yes | `gemma-4-26b-a4b-256k`: SFT, 256K |
 | `muse-glimmer-30b` | 30B | 8 | 128K | 64K | 32K | | 16K | 16K | | |
-| `qwen3.8-next-180b` | 180B (6B) | 16 | 64K | | 32K | | 16K | | | `qwen3.8-next-180b-256k`: SFT, 256K |
+| `qwen3.8-next-180b` | 180B (6B) | 16 | 64K | 64K | 32K | | 16K | | | `qwen3.8-next-180b-256k`: SFT, 256K |
 | `nemotron-3-super-120b` | 120B (12B) | 16 | 64K | 64K | 32K | | | | | `nemotron-3-super-120b-256k`: SFT, 256K |
-| `mimo-311b` | 309B (15B) | 32 | 32K | | 32K | | | | | |
-| `glm-5.3-flash` | 321B (17B) | 32 | 32K | | 32K | | | | | |
-| `minimax-m3.1-flash` | 428B (26B) | 32 | 32K | | 32K | | | | | |
-| `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | | 32K | | | | | |
+| `mimo-311b` | 309B (15B) | 32 | 32K | 32K | 32K | | | | | |
+| `glm-5.3-flash` | 321B (17B) | 32 | 32K | 32K | 32K | | | | | |
+| `minimax-m3.1-flash` | 428B (26B) | 32 | 32K | 32K | 32K | | | | | |
+| `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | 32K | 32K | | | | | |
 | `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
 
-GPUs: the H100s of the smallest setup a job of that model runs on (some models take larger setups too). SFT and DPO
-train all weights; LoRA trains an adapter. RFT is managed GRPO with a built-in reward; Serverless RL runs your own loop.
+GPUs: the H100s of the smallest setup a full-parameter job of that model runs on (some models take larger setups too).
+LoRA runs on fewer for the larger models: 8 for `nemotron-3-super-120b` and `qwen3.8-next-180b`, 16 for `mimo-311b`,
+`glm-5.3-flash` and `minimax-m3.1-flash`, 32 for `deepseek-v4.1-flash`. SFT and DPO train all weights; LoRA trains an adapter. RFT is managed GRPO with a built-in reward; Serverless RL runs your own loop.
 
 ## Quickstart: managed SFT
 
