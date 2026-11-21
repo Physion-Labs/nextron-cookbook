@@ -9,7 +9,7 @@ measured, the command that runs it and the results it got on the live service.
 
 ```bash
 git clone https://github.com/Physion-Labs/nextron-cookbook && cd nextron-cookbook
-uv venv && uv pip install --prerelease=allow -e ".[math]" nextron-cloud
+uv venv && uv pip install --prerelease=allow -e ".[math]"
 source .venv/bin/activate
 export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API keys
 ```

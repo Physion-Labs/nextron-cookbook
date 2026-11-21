@@ -54,5 +54,6 @@ nextron-cookbook run math loss_fn=ppo 'loss_fn_config={"clip_low_threshold": 0.9
 | `--max-grad-norm` | 1.0 | gradient clipping for every step |
 | `--no-grad-clip` | clipping on | no gradient clipping. A step is 1.5-2.7 s shorter (the optimizer then runs beside the backward pass): 2,280-2,350 -> 2,600-2,650 trained tokens/s/GPU on `muse-glimmer-30b`. Clipping guards against a rare very large gradient; keep it on unless your runs are stable |
 | `--idle-timeout` | 1800 | seconds without a sample or a training step before the run stops |
+| `--images` | off | the run takes images (and videos, where the model's `input` lists them) in its prompts, through `rl.connect`; see [`recipes/rl_images.py`](../recipes/rl_images.py) |
 
 A shorter context leaves more GPU memory for sampling in parallel; use the smallest one your task needs.

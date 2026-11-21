@@ -19,7 +19,7 @@ Tested with `tinker` 0.39.0 and `tinker-cookbook` 0.6.1.
 | Sampling from earlier weights or a saved checkpoint | not yet |
 | Named checkpoints during a run, `load_state` | not yet. The model is saved when the run ends. |
 | LoRA | no: all weights are trained |
-| Images in prompts | not yet |
+| Images in prompts | not through Tinker's API; this SDK's `rl.connect` takes them ([`recipes/rl_images.py`](../recipes/rl_images.py)) |
 | More than one training client, or a second model, in one RL run | no |
 
 Unsupported calls fail with a message that says so; they do not train something else silently.

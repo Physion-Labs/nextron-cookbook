@@ -25,7 +25,7 @@ nextron-cloud inference stop inf_... --wait           # always, when you are don
 
 - `--epochs 1`, `--learning-rate 1e-5`: from the sweep below.
 - `--tokens-per-gpu 16384`: the batch size is set so each GPU packs about 16K tokens a step (448 conversations on 8
-  GPUs, 63 steps for 3 epochs). Without it a step packs 64K tokens a GPU, which is 5 steps an epoch here.
+  GPUs, 63 steps for 3 epochs). Without it a step packs 128K tokens a GPU on Qwen3.8-27B, which is 3 steps an epoch here.
 
 ## Results
 
