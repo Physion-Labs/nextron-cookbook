@@ -65,6 +65,8 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 | `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | 32K | 32K | | | | | |
 | `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
 | `olmo-3-7b` | 7.3B | 8 | 64K | | | | | | | |
+| `olmo-3-7b-instruct-sft`, `olmo-3-7b-instruct`, `olmo-3-7b-think` | 7.3B | 8 | 64K | | | | | | | |
+| `qwen3.5-9b`, `qwen3.5-9b-base` | 9B | 8 | 64K | 64K | | | | | both | |
 
 GPUs: the H100s of the smallest setup a full-parameter job of that model runs on (some models take larger setups too).
 LoRA runs on fewer for the larger models: 8 for `nemotron-3-super-120b` and `qwen3.8-next-180b`, 16 for `mimo-311b`,
