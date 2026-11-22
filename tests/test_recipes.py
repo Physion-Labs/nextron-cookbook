@@ -239,3 +239,15 @@ def test_no_second_attempt_is_sampled_when_every_first_one_passes(monkeypatch):
     live.sample.return_value = [(NS(text="```python\nprint(1)\n```"),)]
     games = recipe["play"](live, [NS(problem="p", tests=[])], 1, 16)
     assert live.sample.call_count == 1 and games[0]["reward"] == 1
+
+
+def test_video_sft_sizes_the_batch_from_the_tokens_at_its_video_settings(tmp_path, monkeypatch):
+    (tmp_path / "train.jsonl").write_text("{}\n")
+    client = MagicMock()
+    client.datasets.list.return_value = []
+    client.datasets.wait.return_value = NS(id="ds_1", samples=800)
+    client.models.return_value = [NS(id="qwen3.8-27b", layouts={"1x8-h100": NS(gpus=8)})]
+    client.jobs.estimate.return_value = NS(tokens=3 * 1_760_000, steps=45, credits=500, warnings=[], video={"fps": 8})
+    run("video_sft/train.py", client, ["--data", str(tmp_path / "train.jsonl"), "--video-fps", "8"], monkeypatch)
+    params = client.jobs.estimate.call_args.kwargs["params"]
+    assert (params["video_fps"], params["batch_size"]) == (8, 56)   # 2,200 tokens a sample: 16K a GPU is 59.6 samples

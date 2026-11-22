@@ -23,6 +23,7 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 | [`rl_images.py`](recipes/rl_images.py) | Serverless RL | images in the prompts: name a picture's colour, 3 steps |
 | [`tinker_loop.py`](recipes/tinker_loop.py) | Serverless RL, `tinker` SDK | sample, score, train one step |
 | [`chat_sft`](recipes/chat_sft/) | Managed SFT | [NoRobots](https://huggingface.co/datasets/HuggingFaceH4/no_robots): 9,500 human-written conversations |
+| [`video_sft`](recipes/video_sft/) | Managed SFT on video | count a square's bounces in 800 short videos, and name the walls |
 | [`chat_dpo`](recipes/chat_dpo/) | DPO | [UltraFeedback](https://huggingface.co/datasets/HuggingFaceH4/ultrafeedback_binarized): 4,000 prompts, each with a preferred and a rejected reply |
 | [`math_rft`](recipes/math_rft/) | RFT | MATH with the built-in `boxed` reward: NexCloud runs the whole loop |
 | [`math_rl`](recipes/math_rl/) | Serverless RL | MATH with your own grader |
@@ -63,12 +64,15 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 | `minimax-m3.1-flash` | 428B (26B) | 32 | 32K | 32K | 32K | | | | | |
 | `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | 32K | 32K | | | | | |
 | `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
+| `olmo-3-7b` | 7.3B | 8 | 64K | | | | | | | |
 
 GPUs: the H100s of the smallest setup a full-parameter job of that model runs on (some models take larger setups too).
 LoRA runs on fewer for the larger models: 8 for `nemotron-3-super-120b` and `qwen3.8-next-180b`, 16 for `mimo-311b`,
 `glm-5.3-flash` and `minimax-m3.1-flash`, 32 for `deepseek-v4.1-flash`. SFT and DPO train all weights; LoRA trains an adapter. RFT is managed GRPO with a built-in reward; Serverless RL runs your own loop.
 Images and videos go in user messages (SFT, RFT, Serverless RL and the long-context ids; not DPO or validation sets) and
-are opened per organisation: `nextron-cloud models` lists them in a model's `input` when they are open to yours.
+are opened per organisation: `nextron-cloud models` lists them in a model's `input` when they are open to yours. The
+format, video settings and their cost: the SDK guide's
+[media.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/media.md).
 
 ## Quickstart: managed SFT
 
