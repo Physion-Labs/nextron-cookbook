@@ -55,9 +55,9 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 
 | Model | Size (active) | GPUs | SFT | LoRA | DPO | RFT | Serverless RL | Inference | Images, videos | Tool calls | Longer samples |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| `qwen3.8-27b` | 27B | 8 | 64K | 64K | 32K | 16K | 16K | 16K | both | yes | `qwen3.8-27b-256k`: SFT, 256K |
-| `gemma-4-26b-a4b` | 26B (4B) | 8 | 64K | 64K | 32K | | 16K | 16K | both | | `gemma-4-26b-a4b-256k`: SFT, 256K |
-| `muse-glimmer-30b` | 30B | 8 | 128K | 64K | 32K | | 16K | 16K | images | | |
+| `qwen3.8-27b` | 27B | 8 | 64K | 64K | 32K | 16K | 16K | 64K | both | yes | `qwen3.8-27b-256k`: SFT, 256K |
+| `gemma-4-26b-a4b` | 26B (4B) | 8 | 64K | 64K | 32K | | 16K | 64K | both | | `gemma-4-26b-a4b-256k`: SFT, 256K |
+| `muse-glimmer-30b` | 30B | 8 | 128K | 64K | 32K | | 16K | 128K | images | | |
 | `qwen3.8-next-180b` | 180B (6B) | 16 | 64K | 64K | 32K | | 16K | | both | yes | `qwen3.8-next-180b-256k`: SFT, 256K |
 | `nemotron-3-super-120b` | 120B (12B) | 16 | 64K | 64K | 32K | | | | | | `nemotron-3-super-120b-256k`: SFT, 256K |
 | `mimo-311b` | 309B (15B) | 32 | 32K | 32K | 32K | | | | | | |
@@ -65,11 +65,11 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 | `minimax-m3.1-flash` | 428B (26B) | 32 | 32K | 32K | 32K | | | | | | |
 | `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | 32K | 32K | | | | | yes | |
 | `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
-| `olmo-3-7b` | 7.3B | 8 | 64K | | | | | 16K | | yes | |
-| `olmo-3-7b-instruct-sft`, `olmo-3-7b-instruct`, `olmo-3-7b-think` | 7.3B | 8 | 64K | | | | | 16K | | yes, not `olmo-3-7b-think` | |
-| `qwen3.5-4b` | 4B | 8 | 64K | 64K | | | | 16K | both | yes | |
-| `qwen3.5-9b`, `qwen3.5-9b-base` | 9B | 8 | 64K | 64K | | | | 16K | both | yes | |
-| `qwen3.6-35b-a3b`, `qwen3.5-35b-a3b-base` | 35B (3B) | 8 | 64K | 64K | | | | 16K | both | yes | |
+| `olmo-3-7b` | 7.3B | 8 | 64K | | | | | 64K | | yes | |
+| `olmo-3-7b-instruct-sft`, `olmo-3-7b-instruct`, `olmo-3-7b-think` | 7.3B | 8 | 64K | | | | | 64K | | yes, not `olmo-3-7b-think` | |
+| `qwen3.5-4b` | 4B | 8 | 64K | 64K | | | | 64K | both | yes | |
+| `qwen3.5-9b`, `qwen3.5-9b-base` | 9B | 8 | 64K | 64K | | | | 64K | both | yes | |
+| `qwen3.6-35b-a3b`, `qwen3.5-35b-a3b-base` | 35B (3B) | 8 | 64K | 64K | | | | 64K | both | yes | |
 
 GPUs: the H100s of the smallest setup a full-parameter job of that model runs on (some models take larger setups too).
 LoRA runs on fewer for the larger models: 8 for `nemotron-3-super-120b` and `qwen3.8-next-180b`, 16 for `mimo-311b`,
