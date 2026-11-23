@@ -1409,15 +1409,15 @@ wheels = [
 
 [[package]]
 name = "nextron-cloud"
-version = "0.1.0rc19"
+version = "0.1.0rc28"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d1/a5/58216956dcfae568076fed7f4da5bfb99674cbc089b5ce3274be67f0abf8/nextron_cloud-0.1.0rc19.tar.gz", hash = "sha256:897c0a4dd98dfd56ce43d15c1467f132a820e7fa2a0f218becfb08da6b4c742a", size = 77689, upload-time = "2026-11-20T23:02:02.208Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1d/d1/269e3af91b0cd5d9fc9a6dc9c3c9c80ceba9d759af61e1b28b54301849eb/nextron_cloud-0.1.0rc28.tar.gz", hash = "sha256:7b41841736b3ee50de13cabe682f6edddbd6155eb9a06e827cd41a7b4cb99c13", size = 91062, upload-time = "2026-11-23T12:36:53.242Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/91/97/7b8c00656f4daa8adb442273d4784e19796fd57919cb42120864c0d4e448/nextron_cloud-0.1.0rc19-py3-none-any.whl", hash = "sha256:9970a34b045cbeeb19284db06fd85cca8a4f636023ce08638d0cc537b8ce5a94", size = 88821, upload-time = "2026-11-20T23:02:01.02Z" },
+    { url = "https://files.pythonhosted.org/packages/b5/cf/5ec1c61c1d48b4a702c643b9dce52e903b2dfcc49bc6b9eaad245f51b487/nextron_cloud-0.1.0rc28-py3-none-any.whl", hash = "sha256:c10726f69d4641a1ac3b8fd577d095c76f7adc4ae63f905517908b1e9cecece3", size = 102808, upload-time = "2026-11-23T12:36:52.105Z" },
 ]
 
 [[package]]
@@ -1441,7 +1441,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "nextron-cloud", specifier = ">=0.1.0rc19" },
+    { name = "nextron-cloud", specifier = ">=0.1.0rc28" },
     { name = "tinker", specifier = "==0.39.0" },
     { name = "tinker-cookbook", specifier = "==0.6.1" },
     { name = "tinker-cookbook", extras = ["math-rl"], marker = "extra == 'math'", specifier = "==0.6.1" },

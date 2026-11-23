@@ -251,3 +251,22 @@ def test_video_sft_sizes_the_batch_from_the_tokens_at_its_video_settings(tmp_pat
     run("video_sft/train.py", client, ["--data", str(tmp_path / "train.jsonl"), "--video-fps", "8"], monkeypatch)
     params = client.jobs.estimate.call_args.kwargs["params"]
     assert (params["video_fps"], params["batch_size"]) == (8, 56)   # 2,200 tokens a sample: 16K a GPU is 59.6 samples
+
+
+def test_image_sft_lora_trains_at_the_lora_rate_and_the_smallest_batch(tmp_path, monkeypatch):
+    (tmp_path / "train.jsonl").write_text("{}\n")
+    client = MagicMock()
+    client.datasets.list.return_value = []
+    client.datasets.wait.return_value = NS(id="ds_1", samples=6000)
+    client.jobs.estimate.return_value = NS(tokens=3 * 1_523_094, steps=69, credits=92, warnings=[])
+    run("image_sft/train.py", client, ["--data", str(tmp_path / "train.jsonl"), "--lora"], monkeypatch)
+    params = client.jobs.estimate.call_args.kwargs["params"]
+    assert (params["train_type"], params["learning_rate"], params["batch_size"]) == ("lora", 2e-4, 264)
+
+
+def test_image_sft_scores_the_last_answer_a_reply_names():
+    score = runpy.run_path(str(RECIPES / "image_sft/evaluate.py"))["score"]
+    read = {"kind": "read", "messages": [{}, {"content": "12:59"}]}
+    compare = {"kind": "compare", "messages": [{}, {"content": "B"}]}
+    assert score(read, "Reading the hands... 1:00")["within1"] and not score(read, "1:00")["exact"]   # a minute apart
+    assert score(compare, "Clock A shows 3:10, clock B 4:00, so B")["exact"]

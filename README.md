@@ -23,6 +23,7 @@ export NEXTRON_API_KEY="nk_live_..."       # create one in the console under API
 | [`rl_images.py`](recipes/rl_images.py) | Serverless RL | images in the prompts: name a picture's colour, 3 steps |
 | [`tinker_loop.py`](recipes/tinker_loop.py) | Serverless RL, `tinker` SDK | sample, score, train one step |
 | [`chat_sft`](recipes/chat_sft/) | Managed SFT | [NoRobots](https://huggingface.co/datasets/HuggingFaceH4/no_robots): 9,500 human-written conversations |
+| [`image_sft`](recipes/image_sft/) | Managed SFT on images | read 6,000 analog clocks, one or two to a sample; full and LoRA on the small Qwen models |
 | [`video_sft`](recipes/video_sft/) | Managed SFT on video | count a square's bounces in 800 short videos, and name the walls |
 | [`chat_dpo`](recipes/chat_dpo/) | DPO | [UltraFeedback](https://huggingface.co/datasets/HuggingFaceH4/ultrafeedback_binarized): 4,000 prompts, each with a preferred and a rejected reply |
 | [`math_rft`](recipes/math_rft/) | RFT | MATH with the built-in `boxed` reward: NexCloud runs the whole loop |
@@ -52,23 +53,23 @@ Serverless RL run is downloaded instead: an inference run takes a job's id, not 
 What each model trains and serves, with the longest sample (prompt and reply, in tokens) each method takes. The list
 the service has now, with prices: `nextron-cloud models`, or the console's Models page.
 
-| Model | Size (active) | GPUs | SFT | LoRA | DPO | RFT | Serverless RL | Inference | Images, videos | Longer samples |
-|---|---|---|---|---|---|---|---|---|---|---|
-| `qwen3.8-27b` | 27B | 8 | 64K | 64K | 32K | 16K | 16K | 16K | both | `qwen3.8-27b-256k`: SFT, 256K |
-| `gemma-4-26b-a4b` | 26B (4B) | 8 | 64K | 64K | 32K | | 16K | 16K | both | `gemma-4-26b-a4b-256k`: SFT, 256K |
-| `muse-glimmer-30b` | 30B | 8 | 128K | 64K | 32K | | 16K | 16K | images | |
-| `qwen3.8-next-180b` | 180B (6B) | 16 | 64K | 64K | 32K | | 16K | | both | `qwen3.8-next-180b-256k`: SFT, 256K |
-| `nemotron-3-super-120b` | 120B (12B) | 16 | 64K | 64K | 32K | | | | | `nemotron-3-super-120b-256k`: SFT, 256K |
-| `mimo-311b` | 309B (15B) | 32 | 32K | 32K | 32K | | | | | |
-| `glm-5.3-flash` | 321B (17B) | 32 | 32K | 32K | 32K | | | | | |
-| `minimax-m3.1-flash` | 428B (26B) | 32 | 32K | 32K | 32K | | | | | |
-| `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | 32K | 32K | | | | | |
-| `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
-| `olmo-3-7b` | 7.3B | 8 | 64K | | | | | 16K | | |
-| `olmo-3-7b-instruct-sft`, `olmo-3-7b-instruct`, `olmo-3-7b-think` | 7.3B | 8 | 64K | | | | | 16K | | |
-| `qwen3.5-4b` | 4B | 8 | 64K | 64K | | | | 16K | both | |
-| `qwen3.5-9b`, `qwen3.5-9b-base` | 9B | 8 | 64K | 64K | | | | 16K | both | |
-| `qwen3.6-35b-a3b`, `qwen3.5-35b-a3b-base` | 35B (3B) | 8 | 64K | 64K | | | | 16K | both | |
+| Model | Size (active) | GPUs | SFT | LoRA | DPO | RFT | Serverless RL | Inference | Images, videos | Tool calls | Longer samples |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `qwen3.8-27b` | 27B | 8 | 64K | 64K | 32K | 16K | 16K | 16K | both | yes | `qwen3.8-27b-256k`: SFT, 256K |
+| `gemma-4-26b-a4b` | 26B (4B) | 8 | 64K | 64K | 32K | | 16K | 16K | both | | `gemma-4-26b-a4b-256k`: SFT, 256K |
+| `muse-glimmer-30b` | 30B | 8 | 128K | 64K | 32K | | 16K | 16K | images | | |
+| `qwen3.8-next-180b` | 180B (6B) | 16 | 64K | 64K | 32K | | 16K | | both | yes | `qwen3.8-next-180b-256k`: SFT, 256K |
+| `nemotron-3-super-120b` | 120B (12B) | 16 | 64K | 64K | 32K | | | | | | `nemotron-3-super-120b-256k`: SFT, 256K |
+| `mimo-311b` | 309B (15B) | 32 | 32K | 32K | 32K | | | | | | |
+| `glm-5.3-flash` | 321B (17B) | 32 | 32K | 32K | 32K | | | | | | |
+| `minimax-m3.1-flash` | 428B (26B) | 32 | 32K | 32K | 32K | | | | | | |
+| `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | 32K | 32K | | | | | yes | |
+| `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
+| `olmo-3-7b` | 7.3B | 8 | 64K | | | | | 16K | | yes | |
+| `olmo-3-7b-instruct-sft`, `olmo-3-7b-instruct`, `olmo-3-7b-think` | 7.3B | 8 | 64K | | | | | 16K | | yes, not `olmo-3-7b-think` | |
+| `qwen3.5-4b` | 4B | 8 | 64K | 64K | | | | 16K | both | yes | |
+| `qwen3.5-9b`, `qwen3.5-9b-base` | 9B | 8 | 64K | 64K | | | | 16K | both | yes | |
+| `qwen3.6-35b-a3b`, `qwen3.5-35b-a3b-base` | 35B (3B) | 8 | 64K | 64K | | | | 16K | both | yes | |
 
 GPUs: the H100s of the smallest setup a full-parameter job of that model runs on (some models take larger setups too).
 LoRA runs on fewer for the larger models: 8 for `nemotron-3-super-120b` and `qwen3.8-next-180b`, 16 for `mimo-311b`,
@@ -77,6 +78,8 @@ Images and videos go in user messages (SFT, RFT, Serverless RL and the long-cont
 are opened per organisation: `nextron-cloud models` lists them in a model's `input` when they are open to yours. The
 format, video settings and their cost: the SDK guide's
 [media.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/media.md).
+Tool calls train in SFT and LoRA, from chat samples in OpenAI's format (`tools`, assistant `tool_calls`, `tool`
+messages): the SDK guide's [data.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/data.md#tool-calls).
 
 ## Quickstart: managed SFT
 
