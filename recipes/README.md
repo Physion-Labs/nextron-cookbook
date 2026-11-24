@@ -21,7 +21,7 @@ The four ways to train (managed SFT, DPO, RFT, Serverless RL) and the models eac
 |---|---|---|---|
 | [`chat_sft`](chat_sft/) | managed SFT | NoRobots: 9,500 human-written conversations | Qwen3.8-27B, Gemma-4-26B, Muse-Glimmer-30B: $1.43-$8.47 a run |
 | [`image_sft`](image_sft/) | managed SFT on images | read analog clocks (one or two to a sample), 6,000 pictures | five small Qwen models: exact minute 36-40% -> 91-99%, $0.92-$1.60 a run |
-| [`video_sft`](video_sft/) | managed SFT on video | count a square's bounces and name the walls, 800 videos | Qwen3.8-27B: held-out bounces and walls 8/100 -> 100/100 in 45 steps, $4.88 |
+| [`video_sft`](video_sft/) | managed SFT on video | count a square's bounces and name the walls, 800 videos | held-out bounces and walls: Qwen3.8-27B 8/100 -> 100/100 (45 steps, $4.88); Gemma-4-26B-A4B LoRA 93/100 ($5.41) |
 | [`chat_dpo`](chat_dpo/) | DPO | UltraFeedback: 4,000 preference pairs | Gemma-4-26B: loss 0.693 -> 0.63 in 14 steps, $1.73; Qwen3.8-27B does not learn from other models' replies |
 | [`math_rft`](math_rft/) | RFT | MATH with the built-in `boxed` reward | Qwen3.8-27B: reward 0.75 -> 0.87 in 10 rounds, replies half as long |
 | [`math_rl`](math_rl/) | Serverless RL | MATH with your own grader | MATH-500 35.0% -> 78.0% in 10 steps (Qwen3.8-27B) |

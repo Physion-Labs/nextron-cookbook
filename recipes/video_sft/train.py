@@ -4,10 +4,12 @@
     python recipes/video_sft/data.py                  # bounce/train.jsonl, bounce/test.jsonl and their MP4s
     python recipes/video_sft/train.py                 # uploads train.jsonl with its videos, prints the steps and the price
     python recipes/video_sft/train.py --yes           # start the job, follow it, print the loss of every step
+    python recipes/video_sft/train.py --model gemma-4-26b-a4b --lora --learning-rate 1e-4 --video-frame-tokens 140 --yes
 
 `datasets.upload` packs the JSONL and every video it names into one upload; the server checks and re-encodes the
-videos. `--video-fps` and `--video-max-frames` choose how training samples each video (Qwen models; the estimate
-shows the dataset's tokens at those settings). Videos are opened organisation by organisation: `nextron-cloud models`
+videos. `--video-fps` (Qwen), `--video-max-frames` and `--video-frame-tokens` choose how training samples each video
+(the estimate shows the dataset's tokens at those settings). Then evaluate.py serves the job's model and scores it on
+test.jsonl. Videos are opened organisation by organisation: `nextron-cloud models`
 lists `video` in a model's `input` when they are open to yours.
 """
 import argparse
@@ -38,20 +40,24 @@ def main():
     parser.add_argument("--data", default="bounce/train.jsonl")
     parser.add_argument("--model", default="qwen3.8-27b")
     parser.add_argument("--layout", default="1x8-h100")
+    parser.add_argument("--lora", action="store_true", help="train a LoRA adapter (merged into the checkpoint)")
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--learning-rate", type=float, default=1e-5)
     parser.add_argument("--tokens-per-gpu", type=int, default=16384, help="tokens each GPU packs in a step")
     parser.add_argument("--video-fps", type=float, help="frames a second training reads (Qwen: 1, 2, 4, 8, 16; default 4)")
     parser.add_argument("--video-max-frames", type=int, help="frames a video at most (Qwen default 40, Gemma 32)")
+    parser.add_argument("--video-frame-tokens", type=int, help="tokens a frame (Qwen 256/512/900, default 512; Gemma 70/140/280, default 70)")
     parser.add_argument("--name", default="video_sft")
     parser.add_argument("--yes", action="store_true", help="start the job (it is charged per trained token)")
     args = parser.parse_args()
     client = NexTron()
-    params = {"train_type": "full", "num_train_epochs": args.epochs, "learning_rate": args.learning_rate}
+    params = {"train_type": "lora" if args.lora else "full", "num_train_epochs": args.epochs, "learning_rate": args.learning_rate}
     if args.video_fps:
         params["video_fps"] = args.video_fps
     if args.video_max_frames:
         params["video_max_frames"] = args.video_max_frames
+    if args.video_frame_tokens:
+        params["video_frame_tokens"] = args.video_frame_tokens
     train = uploaded(client, args.data, "bounce train")
     layouts = next(m for m in client.models() if m.id == args.model).layouts
     if args.layout not in layouts:   # the batch is sized for the layout's GPUs, so it is named, not "auto"
@@ -78,7 +84,8 @@ def main():
     points = client.jobs.metrics(started.id)
     speeds = sorted(point.tokens_per_s_per_gpu for point in points[1:])   # the first step compiles kernels
     speed = f"{speeds[len(speeds) // 2]:,} tokens/s/GPU (median)," if speeds else "one step: no steady speed,"
-    print(done.state, speed, f"${client.jobs.billing(started.id).charged_credits / 100:.2f} charged")
+    print(done.state, speed, f"${client.jobs.billing(started.id).charged_credits / 100:.2f} charged;",
+          f"next: python recipes/video_sft/evaluate.py {started.id}")
 
 
 if __name__ == "__main__":
