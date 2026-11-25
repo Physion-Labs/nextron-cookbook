@@ -9,7 +9,7 @@ requires-python = ">=3.11"
 authors = [{ name = "Physion Labs", email = "support@physionlabs.ai" }]
 keywords = ["nextron", "physion", "tinker", "reinforcement-learning", "fine-tuning"]
 # The versions the recipes were measured with. Newer ones may work; `nextron-cookbook check` tells you.
-dependencies = ["nextron-cloud>=0.1.0rc30", "tinker==0.39.0", "tinker-cookbook==0.6.1"]
+dependencies = ["nextron-cloud>=0.1.0rc37", "tinker==0.39.0", "tinker-cookbook==0.6.1"]
 
 [project.optional-dependencies]
 math = ["tinker-cookbook[math-rl]==0.6.1"]

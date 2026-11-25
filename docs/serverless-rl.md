@@ -55,6 +55,17 @@ step and releases the GPUs about a minute later (`closed`); `qwen3.8-next-180b` 
 about 15 to save, neither billed. The saved model is fetched with the run id:
 `nextron-cloud jobs wait-checkpoint rl_...`, `jobs download rl_... DEST`.
 
+A new run can start from a saved model instead of the base model, to go on from where an earlier run stopped.
+`--from-job` (`from_job=` in Python) takes the id of an RL run that trained at least one step, of a finished training
+job, or of an uploaded checkpoint, of the same model; `nextron-cloud models` shows which models take it:
+
+```bash
+nextron-cloud rl start --model qwen3.8-27b --max-hours 2 --from-job rl_... --yes
+```
+
+Measured on Qwen3.8-27B (2026-11-25) with the arithmetic task of `recipes/rl_basic.py`, 32 prompts and 4 replies each:
+a run from the base model went from a mean reward of 0.09 to 0.83 in 3 steps, and the run started from it began at 0.98.
+
 ## What each call does
 
 | Tinker call | On NexCloud |
