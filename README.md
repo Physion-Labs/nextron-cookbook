@@ -4,7 +4,7 @@
 [![nextron-cloud on PyPI](https://img.shields.io/pypi/v/nextron-cloud?include_prereleases&label=nextron-cloud)](https://pypi.org/project/nextron-cloud/)
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
-Tested recipes for [NexCloud](https://nextron.physionlabs.ai). Each one is a real task with the settings we
+Tested recipes for [NexCloud](https://nexcloud.physionlabs.ai). Each one is a real task with the settings we
 measured, the command that runs it and the results it got on the live service.
 
 ```bash

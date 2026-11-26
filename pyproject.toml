@@ -18,7 +18,7 @@ math = ["tinker-cookbook[math-rl]==0.6.1"]
 nextron-cookbook = "nextron_cookbook.cli:main"
 
 [project.urls]
-Homepage = "https://nextron.physionlabs.ai"
+Homepage = "https://nexcloud.physionlabs.ai"
 
 [dependency-groups]
 dev = ["pytest>=8.0"]
