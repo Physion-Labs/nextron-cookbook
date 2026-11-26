@@ -78,8 +78,12 @@ Images and videos go in user messages (SFT, RFT, Serverless RL and the long-cont
 are opened per organisation: `nextron-cloud models` lists them in a model's `input` when they are open to yours. The
 format, video settings and their cost: the SDK guide's
 [media.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/media.md).
-Tool calls train in SFT and LoRA, from chat samples in OpenAI's format (`tools`, assistant `tool_calls`, `tool`
-messages): the SDK guide's [data.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/data.md#tool-calls).
+Tool calls train in SFT and LoRA, and in RFT prompts and DPO pairs where the model has the method, from samples in
+OpenAI's format (`tools`, assistant `tool_calls`, `tool` messages): the SDK guide's
+[data.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/data.md#tool-calls).
+A job or an RL run can start from a saved model instead of the base model: `from_job` takes a finished job, an RL run
+that trained, or a checkpoint you uploaded, on the models with an Inference entry above
+([training.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/training.md#start-from-a-jobs-model)).
 
 ## Quickstart: managed SFT
 
