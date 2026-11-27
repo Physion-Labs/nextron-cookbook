@@ -64,7 +64,7 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 | `glm-5.3-flash` | 321B (17B) | 32 | 32K | 32K | 32K | | | | | | |
 | `minimax-m3.1-flash` | 428B (26B) | 32 | 32K | 32K | 32K | | | | | | |
 | `deepseek-v4.1-flash` | 763B (16B) | 64 | 32K | 32K | 32K | | | | | yes | |
-| `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
+| `kimi-k3.1-pro` | 2.8T (104B) | 224 | 256K | 32K | | | | | | | `kimi-k3.1-pro-1m`: SFT, 1M |
 | `olmo-3-7b` | 7.3B | 8 | 64K | | | | | 64K | | yes | |
 | `olmo-3-7b-instruct-sft`, `olmo-3-7b-instruct`, `olmo-3-7b-think` | 7.3B | 8 | 64K | | | | | 64K | | yes, not `olmo-3-7b-think` | |
 | `qwen3.5-4b` | 4B | 8 | 64K | 64K | | | | 64K | both | yes | |
@@ -73,7 +73,8 @@ the service has now, with prices: `nextron-cloud models`, or the console's Model
 
 GPUs: the H100s of the smallest setup a full-parameter job of that model runs on (some models take larger setups too).
 LoRA runs on fewer for the larger models: 8 for `nemotron-3-super-120b` and `qwen3.8-next-180b`, 16 for `mimo-311b`,
-`glm-5.3-flash` and `minimax-m3.1-flash`, 32 for `deepseek-v4.1-flash`. SFT and DPO train all weights; LoRA trains an adapter. RFT is managed GRPO with a built-in reward; Serverless RL runs your own loop.
+`glm-5.3-flash` and `minimax-m3.1-flash`, 32 for `deepseek-v4.1-flash`, 64 for `kimi-k3.1-pro` (whose LoRA checkpoint is
+the adapters alone, about 1 GB; the others are merged into a full model). SFT and DPO train all weights; LoRA trains an adapter. RFT is managed GRPO with a built-in reward; Serverless RL runs your own loop.
 Images and videos go in user messages (SFT, RFT, Serverless RL and the long-context ids; not DPO or validation sets) and
 are opened per organisation: `nextron-cloud models` lists them in a model's `input` when they are open to yours. The
 format, video settings and their cost: the SDK guide's
