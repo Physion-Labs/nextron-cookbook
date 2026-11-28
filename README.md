@@ -85,6 +85,9 @@ OpenAI's format (`tools`, assistant `tool_calls`, `tool` messages): the SDK guid
 A job or an RL run can start from a saved model instead of the base model: `from_job` takes a finished job, an RL run
 that trained, or a checkpoint you uploaded, on the models with an Inference entry above
 ([training.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/training.md#start-from-a-jobs-model)).
+A long job of the Olmo 3 7B models saves its state about every half hour: after a node failure it goes on from the
+last save by itself, and a job that failed can be resumed from it with `nextron-cloud jobs resume job_...`
+([training.md](https://github.com/Physion-Labs/nextron-python/blob/main/skills/nextron-cloud/references/training.md#resume-a-failed-job)).
 
 ## Quickstart: managed SFT
 
